@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>rawneko | Bio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        bgMain: '#0c0c0e',
+                        cardFace: '#161618',
+                        accent: '#9333EA',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body::-webkit-scrollbar {
+    width: 0;
+}
+
+#custom-cursor {
+    position: fixed;
+    width: 20px;
+    height: 20px;
+    background: #9333EA;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: 9999;
+    transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    top: 0;
+    left: 0;
+    opacity: 0;
+}
+
+#custom-cursor.active {
+    width: 40px;
+    height: 40px;
+    background: rgba(147, 51, 234, 0.6);
+}
+
+#cursor-text {
+    color: white;
+    font-size: 8px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+section {
+    transition: transform 0.3s ease;
+}
+
+section:hover {
+    transform: translateY(-4px);
+}
+
+.snowflake {
+    position: absolute;
+    top: -10px;
+    background: white;
+    border-radius: 50%;
+    opacity: 0.5;
+    pointer-events: none;
+    animation: fall linear forwards;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh) translateX(20px);
+        opacity: 0;
+    }
+}
+
+.spinning {
+    animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.1); }
+}
+
+.animate-pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@media (pointer: coarse) {
+    #custom-cursor { display: none; }
+}
+    </style>
+</head>
+<body class="bg-bgMain text-white font-['Inter'] overflow-x-hidden antialiased">
+
+    <div id="custom-cursor">
+        <span id="cursor-text"></span>
+    </div>
+
+    <div id="welcome-screen" class="fixed inset-0 w-full h-full bg-bgMain z-[150] flex flex-col justify-center items-center cursor-pointer transition-all duration-500" data-cursor-text="OPEN">
+        <div class="text-center">
+            <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-accent/50 shadow-2xl shadow-accent/20">
+                <img src="https://raw.githubusercontent.com/zyphralex/music-storage/main/animation.gif" class="w-full h-full object-cover">
+            </div>
+            <h1 class="text-4xl font-black mb-2">rawneko</h1>
+            <p class="text-accent text-sm font-bold uppercase tracking-wider mb-8">Developer & Creator</p>
+            <div class="animate-bounce">
+                <div class="w-16 h-16 mx-auto bg-accent/20 rounded-full flex items-center justify-center border border-accent/50">
+                    <i class="fa-solid fa-play text-accent text-xl ml-1"></i>
+                </div>
+            </div>
+            <p class="mt-4 text-xs text-gray-500 uppercase tracking-widest">Click anywhere to enter</p>
+        </div>
+    </div>
+
+    <div id="snow-container" class="fixed inset-0 pointer-events-none z-[50] overflow-hidden"></div>
+
+    <button id="scroll-top" class="fixed bottom-6 right-6 w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-lg z-[60] opacity-0 pointer-events-none transition-all duration-300 hover:scale-110" data-cursor-text="UP">
+        <i class="fa-solid fa-arrow-up"></i>
+    </button>
+
+    <div id="modal-overlay" class="fixed inset-0 bg-black/80 z-[200] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+        <div id="modal-content" class="bg-cardFace rounded-[32px] p-6 border border-white/5 max-w-md w-full transform scale-95 transition-all duration-300">
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center text-accent mx-auto mb-4">
+                    <i class="fa-solid fa-terminal text-2xl"></i>
+                </div>
+                <h3 class="text-xl font-black mb-2">Terminal-Shadows</h3>
+                <p class="text-gray-400 text-sm">Choose a platform to view the source code</p>
+            </div>
+            <div class="space-y-3">
+                <a href="https://github.com/zyphralex/Terminal-Shadows" target="_blank" class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="GITH">
+                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden">
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="#000"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <h4 class="font-bold group-hover:text-accent transition-colors">GitHub</h4>
+                        <p class="text-sm text-gray-500">Official Repository</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                </a>
+            </div>
+            <button id="modal-close" class="w-full mt-4 p-3 text-gray-500 hover:text-white transition-colors text-sm font-bold" data-cursor-text="CLOSE">
+                <i class="fa-solid fa-xmark mr-2"></i>Close
+            </button>
+        </div>
+    </div>
+
+    <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,#1a1a20_0%,#000_100%)]"></div>
+
+    <main id="main-container" class="opacity-0 transition-opacity duration-700 w-full max-w-[500px] mx-auto p-4 md:pt-12 space-y-6">
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 shadow-2xl relative overflow-hidden">
+            <div class="flex flex-col sm:flex-row items-center gap-6 relative z-10">
+                <div class="relative">
+                    <img id="profile-avatar" src="https://raw.githubusercontent.com/zyphralex/music-storage/main/animation.gif" class="w-24 h-24 rounded-full border-4 border-white/5 object-cover">
+                    <div id="status-dot" class="absolute bottom-1 right-1 w-6 h-6 border-4 border-cardFace rounded-full shadow-lg transition-colors duration-500"></div>
+                </div>
+                <div class="text-center sm:text-left flex-1">
+                    <h1 id="profile-name" class="text-2xl md:text-3xl font-black mb-1">rawneko</h1>
+                    <p id="profile-desc" class="text-accent text-sm font-bold uppercase tracking-wider mb-4">Developer & Creator</p>
+                    <div class="flex justify-center sm:justify-start gap-3">
+                        <a href="https://t.me/rawneko" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="TG">
+                            <i class="fa-brands fa-telegram"></i>
+                        </a>
+                        <a href="https://discord.com/users/1244006661518000170" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="DS">
+                            <i class="fa-brands fa-discord"></i>
+                        </a>
+                        <a href="https://github.com/zyphralex" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="GIT">
+                            <i class="fa-brands fa-github"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="h-px flex-1 bg-white/10"></div>
+                <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Status</h2>
+                <div class="h-px flex-1 bg-white/10"></div>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="text-center">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">FROM</p>
+                        <p class="text-lg font-black">10:30</p>
+                    </div>
+                    <div class="text-gray-600"><i class="fa-solid fa-arrow-right"></i></div>
+                    <div class="text-center">
+                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">TO</p>
+                        <p class="text-lg font-black">22:00</p>
+                    </div>
+                </div>
+                <div id="status-badge" class="flex items-center gap-2 px-4 py-2 rounded-full transition-colors duration-500">
+                    <div id="status-indicator" class="w-2 h-2 rounded-full animate-pulse"></div>
+                    <span id="status-text" class="text-sm font-bold uppercase"></span>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="h-px flex-1 bg-white/10"></div>
+                <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Music</h2>
+                <div class="h-px flex-1 bg-white/10"></div>
+            </div>
+            <div class="flex items-center gap-4 mb-6 text-left">
+                <div id="album-cover" class="w-16 h-16 bg-accent/20 rounded-xl flex items-center justify-center overflow-hidden transition-transform duration-500">
+                    <i class="fa-solid fa-music text-accent text-2xl"></i>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p id="track-title" class="font-bold truncate">Loading...</p>
+                    <p id="track-artist" class="text-sm text-gray-500 truncate">Please wait</p>
+                </div>
+            </div>
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-2">
+                    <button id="prev-btn" class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors" data-cursor-text="PREV"><i class="fa-solid fa-backward-step"></i></button>
+                    <button id="play-btn" class="w-14 h-14 bg-accent rounded-xl flex items-center justify-center hover:opacity-90 transition-all" data-cursor-text="PLAY"><i id="play-icon" class="fa-solid fa-play text-xl"></i></button>
+                    <button id="next-btn" class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors" data-cursor-text="NEXT"><i class="fa-solid fa-forward-step"></i></button>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button id="mute-btn" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors" data-cursor-text="MUTE"><i id="volume-icon" class="fa-solid fa-volume-high"></i></button>
+                    <div id="volume-container" class="w-20 h-2 bg-white/10 rounded-full cursor-pointer relative" data-cursor-text="VOL">
+                        <div id="volume-bar" class="h-full bg-accent rounded-full" style="width: 70%"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+            <h2 class="text-xl font-black mb-6 text-left">Active Projects</h2>
+            <div class="space-y-4">
+                <button id="terminal-shadows-btn" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="VIEW">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-terminal"></i></div>
+                        <div class="flex-1 text-left">
+                            <h3 class="font-bold group-hover:text-accent transition-colors">Terminal-Shadows</h3>
+                            <p class="text-sm text-gray-500">Terminal-based adventure</p>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </button>
+            </div>
+        </section>
+
+        <section class="bg-accent rounded-[32px] p-px">
+            <div class="bg-cardFace rounded-[31px] p-6">
+                <div class="flex flex-col gap-6">
+                    <div class="flex justify-between items-center">
+                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-500"><i class="fa-solid fa-location-dot mr-2"></i>Saratov Time</span>
+                        <span id="date-display" class="text-[10px] text-gray-500"></span>
+                    </div>
+                    <div class="flex justify-center items-center gap-2">
+                        <div id="hours" class="text-5xl font-black">00</div>
+                        <div class="text-4xl font-black text-accent">:</div>
+                        <div id="minutes" class="text-5xl font-black">00</div>
+                        <div class="text-4xl font-black text-accent">:</div>
+                        <div id="seconds" class="text-5xl font-black text-accent">00</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-snowflake"></i></div>
+                    <div class="text-left">
+                        <p class="font-bold text-sm">Snow Effect</p>
+                        <p class="text-xs text-gray-500">Visual atmosphere</p>
+                    </div>
+                </div>
+                <button id="snow-toggle" class="w-14 h-8 rounded-full relative transition-all duration-300" data-cursor-text="SNOW">
+                    <div id="snow-toggle-circle" class="absolute top-1 w-6 h-6 bg-white rounded-full transition-all duration-300"></div>
+                </button>
+            </div>
+        </section>
+
+        <footer class="text-center py-6 text-gray-600 text-sm">Made with <span class="text-accent">♥</span> by rawneko</footer>
+    </main>
+
+    <audio id="audio-player" preload="auto"></audio>
+    <script>
+let snowEnabled = true;
+let snowInterval = null;
+let siteEntered = false;
+
+const playlist = [
+    { title: "Watch Dogs", artist: "Hudson Mohawke", src: "music/Hudson Mohawke - Watch Dogs.mp3" },
+    { title: "NIGHT DANCER", artist: "imase", src: "music/imase - NIGHT DANCER.mp3" },
+    { title: "Fireworks in Full Bloom", artist: "Taku Iwasaki", src: "music/Taku Iwasaki - Fireworks in Full Bloom.mp3" }
+];
+
+let currentTrack = 0;
+let isPlaying = false;
+let volume = 0.7;
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedSnow = localStorage.getItem('snowEnabled');
+    if (savedSnow !== null) snowEnabled = savedSnow === 'true';
+
+    const savedVol = localStorage.getItem('musicVolume');
+    if (savedVol !== null) volume = parseFloat(savedVol);
+
+    updateClock();
+    setInterval(updateClock, 1000);
+    updateStatus();
+    setInterval(updateStatus, 60000);
+
+    initCursor();
+    initSnowToggle();
+    initMusicPlayer();
+    initScrollTop();
+    initModal();
+    initWelcomeScreen();
+});
+
+function initCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const text = document.getElementById('cursor-text');
+    let mX = 0, mY = 0, cX = 0, cY = 0;
+    const speed = 0.15;
+
+    document.addEventListener('mousemove', (e) => {
+        mX = e.clientX;
+        mY = e.clientY;
+        cursor.style.opacity = '1';
+    });
+
+    function animate() {
+        cX += (mX - cX) * speed;
+        cY += (mY - cY) * speed;
+        cursor.style.transform = `translate3d(${cX - cursor.offsetWidth / 2}px, ${cY - cursor.offsetHeight / 2}px, 0)`;
+        requestAnimationFrame(animate);
+    }
+    animate();
+
+    const hoverables = document.querySelectorAll('a, button, [data-cursor-text]');
+    hoverables.forEach(el => {
+        el.addEventListener('mouseenter', () => {
+            const cursorText = el.getAttribute('data-cursor-text');
+            text.innerText = cursorText || '';
+            cursor.classList.add('active');
+        });
+        el.addEventListener('mouseleave', () => {
+            text.innerText = '';
+            cursor.classList.remove('active');
+        });
+    });
+}
+
+function initWelcomeScreen() {
+    const welcome = document.getElementById('welcome-screen');
+    const main = document.getElementById('main-container');
+    const audio = document.getElementById('audio-player');
+    const playIcon = document.getElementById('play-icon');
+    const album = document.getElementById('album-cover');
+
+    welcome.addEventListener('click', () => {
+        if (siteEntered) return;
+        siteEntered = true;
+        welcome.style.opacity = '0';
+        setTimeout(() => {
+            welcome.style.display = 'none';
+            main.style.opacity = '1';
+            if (snowEnabled) startSnow();
+            audio.play().then(() => {
+                isPlaying = true;
+                playIcon.className = 'fa-solid fa-pause text-xl';
+                album.classList.add('spinning');
+            }).catch(e => console.log(e));
+        }, 500);
+    });
+}
+
+function updateStatus() {
+    const now = new Date();
+    const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
+    const current = saratov.getHours() * 60 + saratov.getMinutes();
+    const isOnline = current >= 630 && current < 1320;
+
+    const elements = {
+        dot: document.getElementById('status-dot'),
+        badge: document.getElementById('status-badge'),
+        indicator: document.getElementById('status-indicator'),
+        txt: document.getElementById('status-text')
+    };
+
+    const color = isOnline ? 'green' : 'red';
+    elements.dot.className = `absolute bottom-1 right-1 w-6 h-6 bg-${color}-500 border-4 border-cardFace rounded-full shadow-lg`;
+    elements.badge.className = `flex items-center gap-2 px-4 py-2 bg-${color}-500/20 rounded-full`;
+    elements.indicator.className = `w-2 h-2 bg-${color}-500 rounded-full animate-pulse`;
+    elements.txt.className = `text-sm font-bold text-${color}-500`;
+    elements.txt.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
+}
+
+function updateClock() {
+    const now = new Date();
+    const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
+    document.getElementById('hours').textContent = String(saratov.getHours()).padStart(2, '0');
+    document.getElementById('minutes').textContent = String(saratov.getMinutes()).padStart(2, '0');
+    document.getElementById('seconds').textContent = String(saratov.getSeconds()).padStart(2, '0');
+    const d = String(saratov.getDate()).padStart(2, '0');
+    const m = String(saratov.getMonth() + 1).padStart(2, '0');
+    document.getElementById('date-display').textContent = `${d}.${m}.${saratov.getFullYear()}`;
+}
+
+function initMusicPlayer() {
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const album = document.getElementById('album-cover');
+    const volBar = document.getElementById('volume-bar');
+    const volIcon = document.getElementById('volume-icon');
+
+    function load(index) {
+        const track = playlist[index];
+        audio.src = track.src;
+        document.getElementById('track-title').textContent = track.title;
+        document.getElementById('track-artist').textContent = track.artist;
+        audio.volume = volume;
+        updateUI();
+    }
+
+    function updateUI() {
+        volBar.style.width = (volume * 100) + '%';
+        volIcon.className = volume === 0 ? 'fa-solid fa-volume-xmark' : (volume < 0.5 ? 'fa-solid fa-volume-low' : 'fa-solid fa-volume-high');
+    }
+
+    playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            playIcon.className = 'fa-solid fa-play text-xl';
+            album.classList.remove('spinning');
+        } else {
+            audio.play();
+            playIcon.className = 'fa-solid fa-pause text-xl';
+            album.classList.add('spinning');
+        }
+        isPlaying = !isPlaying;
+    });
+
+    document.getElementById('prev-btn').addEventListener('click', () => {
+        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+        load(currentTrack);
+        if (isPlaying) audio.play();
+    });
+
+    document.getElementById('next-btn').addEventListener('click', () => {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        load(currentTrack);
+        if (isPlaying) audio.play();
+    });
+
+    document.getElementById('volume-container').addEventListener('click', (e) => {
+        const rect = e.currentTarget.getBoundingClientRect();
+        volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+        audio.volume = volume;
+        localStorage.setItem('musicVolume', volume);
+        updateUI();
+    });
+
+    load(0);
+}
+
+function initScrollTop() {
+    const btn = document.getElementById('scroll-top');
+    window.addEventListener('scroll', () => {
+        btn.style.opacity = window.scrollY > 300 ? '1' : '0';
+        btn.style.pointerEvents = window.scrollY > 300 ? 'auto' : 'none';
+    });
+    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+function initModal() {
+    const overlay = document.getElementById('modal-overlay');
+    const content = document.getElementById('modal-content');
+    const projectBtn = document.getElementById('terminal-shadows-btn');
+
+    if (projectBtn) {
+        projectBtn.addEventListener('click', () => {
+            overlay.classList.remove('opacity-0', 'pointer-events-none');
+            content.classList.remove('scale-95');
+        });
+    }
+
+    const close = () => {
+        overlay.classList.add('opacity-0', 'pointer-events-none');
+        content.classList.add('scale-95');
+    };
+    document.getElementById('modal-close').addEventListener('click', close);
+    overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
+}
+
+function createSnow() {
+    if (!snowEnabled || !siteEntered) return;
+    const s = document.createElement('div');
+    s.className = 'snowflake';
+    const size = Math.random() * 4 + 2;
+    s.style.width = size + 'px';
+    s.style.height = size + 'px';
+    s.style.left = Math.random() * window.innerWidth + 'px';
+    const dur = Math.random() * 5 + 5;
+    s.style.animationDuration = dur + 's';
+    document.getElementById('snow-container').appendChild(s);
+    setTimeout(() => s.remove(), dur * 1000);
+}
+
+function startSnow() { if (!snowInterval) snowInterval = setInterval(createSnow, 200); }
+function stopSnow() { clearInterval(snowInterval); snowInterval = null; document.getElementById('snow-container').innerHTML = ''; }
+
+function initSnowToggle() {
+    const btn = document.getElementById('snow-toggle');
+    const circle = document.getElementById('snow-toggle-circle');
+    const update = () => {
+        btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${snowEnabled ? 'bg-accent' : 'bg-gray-600'}`;
+        circle.style.left = snowEnabled ? '30px' : '4px';
+    };
+    update();
+    btn.addEventListener('click', () => {
+        snowEnabled = !snowEnabled;
+        localStorage.setItem('snowEnabled', snowEnabled);
+        update();
+        snowEnabled ? startSnow() : stopSnow();
+    });
+}
+    </script>
+</body>
+</html>
