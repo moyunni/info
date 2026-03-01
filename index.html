@@ -216,12 +216,12 @@ section:hover {
                 <div class="flex items-center gap-4">
                     <div class="text-center">
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">FROM</p>
-                        <p class="text-lg font-black">10:30</p>
+                        <p class="text-lg font-black">8:00</p>
                     </div>
                     <div class="text-gray-600"><i class="fa-solid fa-arrow-right"></i></div>
                     <div class="text-center">
                         <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">TO</p>
-                        <p class="text-lg font-black">22:00</p>
+                        <p class="text-lg font-black">23:00</p>
                     </div>
                 </div>
                 <div id="status-badge" class="flex items-center gap-2 px-4 py-2 rounded-full transition-colors duration-500">
@@ -478,7 +478,7 @@ function updateStatus() {
     const now = new Date();
     const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
     const current = saratov.getHours() * 60 + saratov.getMinutes();
-    const isOnline = current >= 630 && current < 1320;
+    const isOnline = current >= 480 && current < 1380;
 
     const elements = {
         dot: document.getElementById('status-dot'),
