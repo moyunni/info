@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>rawneko | Bio</title>
+    <title>rawneko | Cyber Bio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
-
     <link rel="me" href="https://social.vivaldi.net/@rawneko">
-
     <script>
         tailwind.config = {
             theme: {
@@ -20,143 +18,159 @@
                         bgMain: '#0c0c0e',
                         cardFace: '#161618',
                         accent: '#9333EA',
+                        blurBg: 'rgba(20, 20, 30, 0.3)',
                     }
                 }
             }
         }
     </script>
     <style>
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-html {
-    scroll-behavior: smooth;
-}
+        html {
+            scroll-behavior: smooth;
+        }
 
-body::-webkit-scrollbar {
-    width: 0;
-}
+        body::-webkit-scrollbar {
+            width: 0;
+        }
 
-#custom-cursor {
-    position: fixed;
-    width: 20px;
-    height: 20px;
-    background: #9333EA;
-    border-radius: 50%;
-    pointer-events: none;
-    z-index: 9999;
-    transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    opacity: 0;
-}
+        #custom-cursor {
+            position: fixed 20px;
+            height: 20px;
+            background: #9333EA;
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            backdrop-filter: blur(4px);
+        }
 
-#custom-cursor.active {
-    width: 40px;
-    height: 40px;
-    background: rgba(147, 51, 234, 0.6);
-}
+        #custom-cursor.active {
+            width: 40px;
+            height: 40px;
+            background: rgba(147, 51, 234, 0.6);
+        }
 
-#cursor-text {
-    color: white;
-    font-size: 8px;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: 0.5px;
-}
+        #cursor-text {
+            color: white;
+            font-size: 8px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
 
-section {
-    transition: transform 0.3s ease;
-}
+        section {
+            transition: transform 0.3s ease;
+        }
 
-section:hover {
-    transform: translateY(-4px);
-}
+        section:hover {
+            transform: translateY(-4px);
+        }
 
-.snowflake {
-    position: absolute;
-    top: -10px;
-    background: white;
-    border-radius: 50%;
-    opacity: 0.5;
-    pointer-events: none;
-    animation: fall linear forwards;
-}
+        .snowflake {
+            position: absolute;
+            top: -10px;
+            background: white;
+            border-radius: 50%;
+            opacity: 0.5;
+            pointer-events: none;
+            animation: fall linear forwards;
+        }
 
-@keyframes fall {
-    to {
-        transform: translateY(100vh) translateX(20px);
-        opacity: 0;
-    }
-}
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) translateX(20px);
+                opacity: 0;
+            }
+        }
 
-.spinning {
-    animation: spin 8s linear infinite;
-}
+        .spinning {
+            animation: spin 8s linear infinite;
+        }
 
-@keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
+        @keyframes spin transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
 
-@keyframes pulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.5; transform: scale(1.1); }
-}
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.1); }
+        }
 
-.animate-pulse {
-    animation: pulse 2s ease-in-out infinite;
-}
+        .animate-pulse {
+            animation: pulse 2s ease-in-out infinite;
+        }
 
-@media (pointer: coarse) {
-    #custom-cursor { display: none; }
-}
+        @media (pointer: coarse) {
+            #custom-cursor { display: none; }
+        }
 
-.raindrop {
-    position: absolute;
-    width: 2px;
-    height: 10px;
-    background: rgba(173, 216, 230, 0.7);
-    pointer-events: none;
-    animation: fallRain linear forwards;
-}
+        .raindrop {
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: rgba(173, 216, 230, 0.7);
+            pointer-events: none;
+            animation: fallRain linear forwards;
+        }
 
-@keyframes fallRain {
-    to {
-        transform: translateY(100vh) translateX(5px);
-        opacity: 0;
-    }
-}
+        @keyframes fallRain {
+            to {
+                transform: translateY(100vh) translateX(5px);
+                opacity: 0;
+            }
+        }
 
+        .dynamic-blur {
+            backdrop-filter: blur(10px);
+            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(147, 51, 234, 0.1) 0%, transparent 30%);
+        }
+
+        .card-glow {
+            box-shadow: 0 0 20px rgba(147, 51, 234, 0.2), inset 0 0 10px rgba(147, 51, 234, 0.1);
+        }
+
+        .animate-breath {
+            animation: breath 4s ease-in-out infinite;
+        }
+
+        @keyframes breath {
+            0%, 100% { opacity: 0.9; }
+            50% { opacity: 0.6; }
+        }
     </style>
 </head>
-<body class="bg-bgMain text-white font-['Inter'] overflow-x-hidden antialiased">
-
+<body class="bg-bgMain text-white font-['Inter'] overflow-x-hidden antialiased dynamic-blur" id="body-bg">
     <div id="custom-cursor">
         <span id="cursor-text"></span>
     </div>
 
     <a rel="me" href="https://social.vivaldi.net/@rawneko" class="hidden"></a>
 
-    <div id="welcome-screen" class="fixed inset-0 w-full h-full bg-bgMain z-[150] flex flex-col justify-center items-center cursor-pointer transition-all duration-500" data-cursor-text="OPEN">
-        <div class="text-center">
-            <div class="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden border-4 border-accent/50 shadow-2xl shadow-accent/20">
+    <div" class="fixed inset-0 w-full h-full bg-bgMain z-[150] flex flex-col justify-center items-center cursor-pointer transition-all duration-500" data-cursor-text="ENTER">
+        <div class="text-center animate-breath">
+            <div class="w-32 h-32 mx-auto mb overflow-hidden border-4 border-accent/50 shadow-2xl shadow-accent/20">
                 <img src="./animation.gif" class="w-full h-full object-cover">
             </div>
             <h1 class="text-4xl font-black mb-2">rawneko</h1>
-            <p class="text-accent text-sm font-bold uppercase tracking-wider mb-8">Developer & Creator</p>
+            <p class="text-accent text-sm font-bold uppercase tracking-wider mb-8">Cyber Developer & Creator</p>
             <div class="animate-bounce">
                 <div class="w-16 h-16 mx-auto bg-accent/20 rounded-full flex items-center justify-center border border-accent/50">
                     <i class="fa-solid fa-play text-accent text-xl ml-1"></i>
                 </div>
             </div>
-            <p class="mt-4 text-xs text-gray-500 uppercase tracking-widest">Click anywhere to enter</p>
+            <p class="mt-4 text-xs text-gray-500 uppercase tracking-widest">Enter the Matrix</p>
         </div>
     </div>
 
@@ -178,7 +192,7 @@ section:hover {
             <div class="space-y-3">
                 <a href="https://github.com/rawneko/Terminal-Shadows" target="_blank" class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="GITH">
                     <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden">
-                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="#000"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="#000"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
                     </div>
                     <div class="flex-1 text-left">
                         <h4 class="font-bold group-hover:text-accent transition-colors">GitHub</h4>
@@ -193,10 +207,9 @@ section:hover {
         </div>
     </div>
 
-    <div class="fixed inset-0 -z-10 bg-[radial-gradient(circle_at_50%_0%,#1a1a20_0%,#000_100%)]"></div>
-
     <main id="main-container" class="opacity-0 transition-opacity duration-700 w-full max-w-[500px] mx-auto p-4 md:pt-12 space-y-6">
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 shadow-2xl relative overflow-hidden">
+        <!-- Все твои секции остаются -->
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow relative overflow-hidden">
             <div class="flex flex-col sm:flex-row items-center gap-6 relative z-10">
                 <div class="relative">
                     <img id="profile-avatar" src="./animation.gif" class="w-24 h-24 rounded-full border-4 border-white/5 object-cover">
@@ -204,7 +217,7 @@ section:hover {
                 </div>
                 <div class="text-center sm:text-left flex-1">
                     <h1 id="profile-name" class="text-2xl md:text-3xl font-black mb-1">rawneko</h1>
-                    <p id="profile-desc" class="text-accent text-sm font-bold uppercase tracking-wider mb-4">Developer & Creator</p>
+                    <p id="profile-desc" class="text-accent text-sm font-bold uppercase tracking-wider mb-4">Cyber Developer & Creator</p>
                     <div class="flex justify-center sm:justify-start gap-3">
                         <a href="https://t.me/QLogovo" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="TG">
                             <i class="fa-brands fa-telegram"></i>
@@ -215,7 +228,7 @@ section:hover {
                         <a href="https://social.vivaldi.net/@rawneko" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="MDB">
                             <i class="fa-brands fa-mastodon"></i>
                         </a>
-                        <a href="https://github.com/rawneko" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="GIT">
+                        <a href="https://github.com/rawneko" target="_blank" class="w-10 h-10 bg-white/5-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="GIT">
                             <i class="fa-brands fa-github"></i>
                         </a>
                     </div>
@@ -223,7 +236,7 @@ section:hover {
             </div>
         </section>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
             <div class="flex items-center gap-3 mb-6">
                 <div class="h-px flex-1 bg-white/10"></div>
                 <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Status</h2>
@@ -248,7 +261,7 @@ section:hover {
             </div>
         </section>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
             <div class="flex items-center gap-3 mb-6">
                 <div class="h-px flex-1 bg-white/10"></div>
                 <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Music</h2>
@@ -278,89 +291,89 @@ section:hover {
             </div>
         </section>
 
-<section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
-    <h2 class="text-xl font-black mb-6 text-left">Active Projects</h2>
-    <div class="space-y-4">
-        <button id="terminal-shadows-btn" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="TS">
-            <div class="flex items-center gap-4">
-                <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-terminal text-2xl"></i></div>
-                <div class="flex-1 text-left">
-                    <h3 class="font-bold group-hover:text-accent transition-colors">Terminal-Shadows</h3>
-                    <p class="text-sm text-gray-500">Terminal-based adventure</p>
-                </div>
-                <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
+            <h2 class="text-xl font-black mb-6 text-left">Active Projects</h2>
+            <div class="space-y-4">
+                <button id="terminal-shadows-btn" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="TS">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-terminal text-2xl"></i></div>
+                        <div class="flex-1 text-left">
+                            <h3 class="font-bold group-hover:text-accent transition-colors">Terminal-Shadows</h3>
+                            <p class="text-sm text-gray-500">Terminal-based adventure</p>
+                        </div>
+                        <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                    </div>
+                </button>
+                <a href="https://github.com/rawneko/To-Do-list" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="TODO">
+                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
+                        <i class="fa-solid fa-list-check text-2xl"></i>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <h3 class="font-bold group-hover:text-accent transition-colors">To-Do List</h3>
+                        <p class="text-sm text-gray-500">An application for scheduling tasks with M3</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                </a>
+                <a href="https://rawneko.github.io/RawGPT" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="GPT">
+                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
+                        <i class="fa-solid fa-brain text-2xl"></i>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <h3 class="font-bold group-hover-colors">RawGPT</h3>
+                        <p class="text-sm text-gray-500">Ollama client for Windows 10/11</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                </a>
+                <a href="https://github.com/rawneko/RawGPT-android" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="GPT">
+                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
+                        <i class="fa-solid fa-brain text-2xl"></i>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <h3 class="font-bold group-hover:text-accent transition-colors">RawGPT (android)</h3>
+                        <p class="text-sm text-gray-500">Ollama client forp>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                </a>
+                <a href="https://github/discord-autoquest" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="BOT">
+                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
+                        <i class="fa-solid fa-robot text-2xl"></i>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <h3 class="font-bold group-hover:text-accent transition-colors">Discord Autoquest</h3>
+                        <p class="text-sm text-gray-500">Python automation for Discord tasks</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                </a>
+                <a href="https://rawneko.github.io/rkn-game" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="RKN">
+                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
+                        <i class="fa-solid fa-shield-halved text-2xl"></i>
+                    </div>
+                    <div class="flex-1 text-left">
+                        <h3 class="font-bold group-hover:text-accent transition-colors">РКН Simulator</h3>
+                        <p class="text-sm text-gray-500">Satirical game about internet censorship</p>
+                    </div>
+                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
+                </a>
             </div>
-        </button>
-        <a href="https://github.com/rawneko/To-Do-list" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="TODO">
-            <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                <i class="fa-solid fa-list-check text-2xl"></i>
-            </div>
-            <div class="flex-1 text-left">
-                <h3 class="font-bold group-hover:text-accent transition-colors">To-Do List</h3>
-                <p class="text-sm text-gray-500">An application for scheduling tasks with M3</p>
-            </div>
-            <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-        </a>
-        <a href="https://rawneko.github.io/RawGPT" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="GPT">
-            <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                <i class="fa-solid fa-brain text-2xl"></i>
-            </div>
-            <div class="flex-1 text-left">
-                <h3 class="font-bold group-hover:text-accent transition-colors">RawGPT</h3>
-                <p class="text-sm text-gray-500">Ollama client for Windows 10/11</p>
-            </div>
-            <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-        </a>
-        <a href="https://github.com/rawneko/RawGPT-android" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="GPT">
-            <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                <i class="fa-solid fa-brain text-2xl"></i>
-            </div>
-            <div class="flex-1 text-left">
-                <h3 class="font-bold group-hover:text-accent transition-colors">RawGPT (android)</h3>
-                <p class="text-sm text-gray-500">Ollama client for android 7+</p>
-            </div>
-            <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-        </a>
-        <a href="https://github.com/rawneko/discord-autoquest" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="BOT">
-            <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                <i class="fa-solid fa-robot text-2xl"></i>
-            </div>
-            <div class="flex-1 text-left">
-                <h3 class="font-bold group-hover:text-accent transition-colors">Discord Autoquest</h3>
-                <p class="text-sm text-gray-500">Python automation for Discord tasks</p>
-            </div>
-            <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-        </a>
-        <a href="https://rawneko.github.io/rkn-game" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="RKN">
-            <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                <i class="fa-solid fa-shield-halved text-2xl"></i>
-            </div>
-            <div class="flex-1 text-left">
-                <h3 class="font-bold group-hover:text-accent transition-colors">РКН Simulator</h3>
-                <p class="text-sm text-gray-500">Satirical game about internet censorship</p>
-            </div>
-            <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-        </a>
-    </div>
-</section>
+        </section>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
-    <div class="flex items-center gap-3 mb-6">
-        <div class="h-px flex-1 bg-white/10"></div>
-        <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Support Aprel!</h2>
-        <div class="h-px flex-1 bg-white/10"></div>
-    </div>
-    <div class="flex flex-col items-center">
-        <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" class="mb-4 block" data-cursor-text="FORUM">
-            <img src="https://forum.aprelteam.su/uploads/monthly_2023_12/77521200b8e4a2eb5952f0769ff7cbd3.jpg.6cfbfa65f5564464bc8b3a6d4d3fe900.jpg" alt="Aprel Forum" class="rounded-xl border border-white/10 max-w-full h-auto">
-        </a>
-        <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" class="text-lg font-bold text-center text-accent hover:underline" data-cursor-text="JOIN">
-            Join the Community!
-        </a>
-    </div>
-</section>
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
+            <div class="flex items-center gap-3 mb-6">
+                <div class="h-px flex-1 bg-white/10"></div>
+                <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Support Aprel!</h2>
+                <div class="h-px flex-1 bg-white/10"></div>
+            </div>
+            <div class="flex flex-col items-center">
+                <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" class="mb-4 block" data-cursor-text="FORUM">
+                    <img src="https://forum.aprelteam.su/uploads/monthly_2023_12/77521200b8e4a2eb5952f0769ff7cbd3.jpg.6cfbfa65f5564464bc8b3a6d4d3fe900.jpg" alt="Aprel Forum" class="rounded-xl border border-white/10 max-w-full h-auto">
+                </a>
+                <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" class="text-lg font-bold text-center text-accent hover:underline" data-cursor-text="JOIN">
+                    Join the Community!
+                </a>
+            </div>
+        </section>
 
-        <section class="bg-accent rounded-[32px] p-px">
+        <section class="bg-accent rounded-[32px] p-px card-glow">
             <div class="bg-cardFace rounded-[31px] p-6">
                 <div class="flex flex-col gap-6">
                     <div class="flex justify-between items-center">
@@ -377,9 +390,8 @@ section:hover {
                 </div>
             </div>
         </section>
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-snowflake"></i></div>
@@ -393,8 +405,8 @@ section:hover {
                 </button>
             </div>
         </section>
-        
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5">
+
+        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-3">
                     <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-cloud-rain"></i></div>
@@ -414,295 +426,289 @@ section:hover {
 
     <audio id="audio-player" preload="auto"></audio>
     <script>
-let snowEnabled = false;
-let rainEnabled = false
-let snowInterval = null;
-let rainInterval = null
-let siteEntered = false;
+        let snowEnabled = false;
+        let rainEnabled = true;
+        let snowInterval = null;
+        let rainInterval = null;
+        let siteEntered = false;
 
-const playlist = [
-    { title: "Watch Dogs", artist: "Hudson Mohawke", src: "music/Hudson Mohawke - Watch Dogs.mp3" },
-    { title: "NIGHT DANCER", artist: "imase", src: "music/imase - NIGHT DANCER.mp3" },
-    { title: "Fireworks in Full Bloom", artist: "Taku Iwasaki", src: "music/Taku Iwasaki - Fireworks in Full Bloom.mp3" }
-];
+        const playlist = [
+            { title: "Watch Dogs", artist: "Hudson Mohawke", src: "music/Hudson Mohawke - Watch Dogs.mp3" },
+            { title: "NIGHT DANCER", artist: "imase", src: "music/imase - NIGHT DANCER.mp3" },
+            { title: "Fireworks in Full Bloom", artist: "Taku Iwasaki", src: "music/Taku Iwasaki - Fireworks in Full Bloom.mp3" }
+        ];
 
-let currentTrack = 0;
-let isPlaying = false;
-let volume = 0.7;
+        let currentTrack = 0;
+        let isPlaying = false;
+        let volume = 0.7;
 
-document.addEventListener('DOMContentLoaded', () => {
-    const savedSnow = localStorage.getItem('snowEnabled');
-    if (savedSnow !== null) snowEnabled = savedSnow === 'true';
-
-    const savedRain = localStorage.getItem('rainEnabled');
-    if (savedRain !== null) rainEnabled = savedRain === 'true';
-
-    const savedVol = localStorage.getItem('musicVolume');
-    if (savedVol !== null) volume = parseFloat(savedVol);
-
-    updateClock();
-    setInterval(updateClock, 1000);
-    updateStatus();
-    setInterval(updateStatus, 60000);
-
-    initCursor();
-    initSnowToggle();
-    initRainToggle();
-    initMusicPlayer();
-    initScrollTop();
-    initModal();
-    initWelcomeScreen();
-});
-
-function initCursor() {
-    const cursor = document.getElementById('custom-cursor');
-    const text = document.getElementById('cursor-text');
-    let mX = 0, mY = 0, cX = 0, cY = 0;
-    const speed = 0.15;
-
-    document.addEventListener('mousemove', (e) => {
-        mX = e.clientX;
-        mY = e.clientY;
-        cursor.style.opacity = '1';
-    });
-
-    function animate() {
-        cX += (mX - cX) * speed;
-        cY += (mY - cY) * speed;
-        cursor.style.transform = `translate3d(${cX - cursor.offsetWidth / 2}px, ${cY - cursor.offsetHeight / 2}px, 0)`;
-        requestAnimationFrame(animate);
-    }
-    animate();
-
-    const hoverables = document.querySelectorAll('a, button, [data-cursor-text]');
-    hoverables.forEach(el => {
-        el.addEventListener('mouseenter', () => {
-            const cursorText = el.getAttribute('data-cursor-text');
-            text.innerText = cursorText || '';
-            cursor.classList.add('active');
+        document.addEventListener('mousemove', (e) => {
+            const x = e.clientX;
+            const y = e.clientY;
+            document.documentElement.style.setProperty('--mouse-x', x + 'px');
+            document.documentElement.style.setProperty('--mouse-y', y + 'px');
         });
-        el.addEventListener('mouseleave', () => {
-            text.innerText = '';
-            cursor.classList.remove('active');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            updateClock();
+            setInterval(updateClock, 1000);
+            updateStatus();
+            setInterval(updateStatus, 60000);
+
+            initCursor();
+            initSnowToggle();
+            initRainToggle();
+            initMusicPlayer();
+            initScrollTop();
+            initModal();
+            initWelcomeScreen();
         });
-    });
-}
 
-function initWelcomeScreen() {
-    const welcome = document.getElementById('welcome-screen');
-    const main = document.getElementById('main-container');
-    const audio = document.getElementById('audio-player');
-    const playIcon = document.getElementById('play-icon');
-    const album = document.getElementById('album-cover');
+        function initCursor() {
+            const cursor = document.getElementById('custom-cursor');
+            const text = document.getElementById('cursor-text');
+            let mX = 0, mY = 0, cX = 0, cY = 0;
+            const speed = 0.15;
 
-    welcome.addEventListener('click', () => {
-        if (siteEntered) return;
-        siteEntered = true;
-        welcome.style.opacity = '0';
-        setTimeout(() => {
-            welcome.style.display = 'none';
-            main.style.opacity = '1';
-            if (snowEnabled) startSnow();
-            if (rainEnabled) startRain();
-            audio.play().then(() => {
-                isPlaying = true;
-                playIcon.className = 'fa-solid fa-pause text-xl';
-                album.classList.add('spinning');
-            }).catch(e => console.log(e));
-        }, 500);
-    });
-}
+            document.addEventListener('mousemove', (e) => {
+                mX = e.clientX;
+                mY = e.clientY;
+                cursor.style.opacity = '1';
+            });
 
-function updateStatus() {
-    const now = new Date();
-    const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
-    const current = saratov.getHours() * 60 + saratov.getMinutes();
-    const isOnline = current >= 480 && current < 1380;
+            function animate() {
+                cX += (mX - cX) * speed;
+                cY += (mY - cY) * speed;
+                cursor.style.transform = `translate3d(${cX - cursor.offsetWidth / 2}px, ${cY - cursor.offsetHeight / 2}px, 0)`;
+                requestAnimationFrame(animate);
+            }
+            animate();
 
-    const elements = {
-        dot: document.getElementById('status-dot'),
-        badge: document.getElementById('status-badge'),
-        indicator: document.getElementById('status-indicator'),
-        txt: document.getElementById('status-text')
-    };
-
-    const color = isOnline ? 'green' : 'red';
-    elements.dot.className = `absolute bottom-1 right-1 w-6 h-6 bg-${color}-500 border-4 border-cardFace rounded-full shadow-lg`;
-    elements.badge.className = `flex items-center gap-2 px-4 py-2 bg-${color}-500/20 rounded-full`;
-    elements.indicator.className = `w-2 h-2 bg-${color}-500 rounded-full animate-pulse`;
-    elements.txt.className = `text-sm font-bold text-${color}-500`;
-    elements.txt.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
-}
-
-function updateClock() {
-    const now = new Date();
-    const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
-    document.getElementById('hours').textContent = String(saratov.getHours()).padStart(2, '0');
-    document.getElementById('minutes').textContent = String(saratov.getMinutes()).padStart(2, '0');
-    document.getElementById('seconds').textContent = String(saratov.getSeconds()).padStart(2, '0');
-    const d = String(saratov.getDate()).padStart(2, '0');
-    const m = String(saratov.getMonth() + 1).padStart(2, '0');
-    document.getElementById('date-display').textContent = `${d}.${m}.${saratov.getFullYear()}`;
-}
-
-function initMusicPlayer() {
-    const audio = document.getElementById('audio-player');
-    const playBtn = document.getElementById('play-btn');
-    const playIcon = document.getElementById('play-icon');
-    const album = document.getElementById('album-cover');
-    const volBar = document.getElementById('volume-bar');
-    const volIcon = document.getElementById('volume-icon');
-
-    function load(index) {
-        const track = playlist[index];
-        audio.src = track.src;
-        document.getElementById('track-title').textContent = track.title;
-        document.getElementById('track-artist').textContent = track.artist;
-        audio.volume = volume;
-        updateUI();
-    }
-
-    function updateUI() {
-        volBar.style.width = (volume * 100) + '%';
-        volIcon.className = volume === 0 ? 'fa-solid fa-volume-xmark' : (volume < 0.5 ? 'fa-solid fa-volume-low' : 'fa-solid fa-volume-high');
-    }
-
-    playBtn.addEventListener('click', () => {
-        if (isPlaying) {
-            audio.pause();
-            playIcon.className = 'fa-solid fa-play text-xl';
-            album.classList.remove('spinning');
-        } else {
-            audio.play();
-            playIcon.className = 'fa-solid fa-pause text-xl';
-            album.classList.add('spinning');
+            const hoverables = document.querySelectorAll('a, button, [data-cursor-text]');
+            hoverables.forEach(el => {
+                el.addEventListener('mouseenter', () => {
+                    const cursorText = el.getAttribute('data-cursor-text');
+                    text.innerText = cursorText || '';
+                    cursor.classList.add('active');
+                });
+                el.addEventListener('mouseleave', () => = '';
+                    cursor.classList.remove('active');
+                });
+            });
         }
-        isPlaying = !isPlaying;
-    });
 
-    document.getElementById('prev-btn').addEventListener('click', () => {
-        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-        load(currentTrack);
-        if (isPlaying) audio.play();
-    });
+        function initWelcomeScreen() {
+            const welcome = document.getElementById('welcome-screen');
+            const main = document.getElementById('main-container');
+            const audio = document.getElementById('audio-player');
+            const playIcon = document.getElementById('play-icon');
+            const album = document.getElementById('album-cover');
 
-    document.getElementById('next-btn').addEventListener('click', () => {
-        currentTrack = (currentTrack + 1) % playlist.length;
-        load(currentTrack);
-        if (isPlaying) audio.play();
-    });
+            welcome.addEventListener('click', () => {
+                if (siteEntered) return;
+                siteEntered = true;
+                welcome.style.opacity = '0';
+                setTimeout(() => {
+                    welcome.style.display = 'none';
+                    main.style.opacity = '1';
+                    if (snowEnabled) startSnow();
+                    if (rainEnabled) startRain();
+                    audio.play().then(() => {
+                        isPlaying = true;
+                        playIcon.className = 'fa-solid fa-pause text-xl';
+                        album.classList.add('spinning');
+                    }).catch(e => console.log(e));
+                }, 500);
+            });
+        }
 
-    document.getElementById('volume-container').addEventListener('click', (e) => {
-        const rect = e.currentTarget.getBoundingClientRect();
-        volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-        audio.volume = volume;
-        localStorage.setItem('musicVolume', volume);
-        updateUI();
-    });
+        function updateStatus() {
+            const now = new Date();
+            const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
+            const current = saratov.getHours() * 60 + saratov.getMinutes();
+            const isOnline = current >= 480 && current < 1380;
 
-    load(0);
-}
+            const elements = {
+                dot: document.getElementById('status-dot'),
+                badge: document.getElementById('status-badge'),
+                indicator: document.getElementById('status-indicator'),
+                txt: document.getElementById('status-text')
+            };
 
-function initScrollTop() {
-    const btn = document.getElementById('scroll-top');
-    window.addEventListener('scroll', () => {
-        btn.style.opacity = window.scrollY > 300 ? '1' : '0';
-        btn.style.pointerEvents = window.scrollY > 300 ? 'auto' : 'none';
-    });
-    btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-}
+            const color = isOnline ? 'green' : 'red';
+            elements.dot.className = `absolute bottom-1 right-1 w-6 h-6 bg-${color}-500 border-4 border-cardFace rounded-full shadow-lg`;
+            elements.badge.className = `flex items-center gap-2 px-4 py-2 bg-${color}-500/20 rounded-full`;
+            elements.indicator.className = `w-2 h-2 bg-${color}-500 rounded-full animate-pulse`;
+            elements.txt.className = `text-sm font-bold text-${color}-500`;
+            elements.txt.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
+        }
 
-function initModal() {
-    const overlay = document.getElementById('modal-overlay');
-    const content = document.getElementById('modal-content');
-    const projectBtn = document.getElementById('terminal-shadows-btn');
+        function updateClock() {
+            const now = new Date();
+            const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
+            document.getElementById('hours').textContent = String(saratov.getHours()).padStart(2, '0');
+            document.getElementById('minutes').textContent = String(saratov.getMinutes()).padStart(2, '0');
+            document.getElementById('seconds').textContent = String(saratov.getSeconds()).padStart(2, '0');
+            const d = String(saratov.getDate()).padStart(2, '0');
+            const m = String(saratov.getMonth() + 1).padStart(2, '0');
+            document.getElementById('date-display').textContent = `${d}.${m}.${saratov.getFullYear()}`;
+        }
 
-    if (projectBtn) {
-        projectBtn.addEventListener('click', () => {
-            overlay.classList.remove('opacity-0', 'pointer-events-none');
-            content.classList.remove('scale-95');
-        });
-    }
+        function initMusicPlayer() {
+            const audio = document.getElementById('audio-player');
+            const playBtn = document.getElementById('play-btn');
+            const playIcon = document.getElementById('play-icon');
+            const album = document.getElementById('album-cover');
+            const volBar = document.getElementById('volume-bar');
+            const volIcon = document.getElementById('volume-icon');
 
-    const close = () => {
-        overlay.classList.add('opacity-0', 'pointer-events-none');
-        content.classList.add('scale-95');
-    };
-    document.getElementById('modal-close').addEventListener('click', close);
-    overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
-}
+            function load(index) {
+                const track = playlist[index];
+                audio.src = track.src;
+                document.getElementById('track-title').textContent = track.title;
+                document.getElementById('track-artist').textContent = track.artist;
+                audio.volume = volume;
+                updateUI();
+            }
 
-function createSnow() {
-    if (!snowEnabled || !siteEntered) return;
-    const s = document.createElement('div');
-    s.className = 'snowflake';
-    const size = Math.random() * 4 + 2;
-    s.style.width = size + 'px';
-    s.style.height = size + 'px';
-    s.style.left = Math.random() * window.innerWidth + 'px';
-    const dur = Math.random() * 5 + 5;
-    s.style.animationDuration = dur + 's';
-    document.getElementById('snow-container').appendChild(s);
-    setTimeout(() => s.remove(), dur * 1000);
-}
+            function updateUI() {
+                volBar.style.width = (volume * 100) + '%';
+                volIcon.className = volume === 0 ? 'fa-solid fa-volume-xmark' : (volume < 0.5 ? 'fa-solid fa-volume-low' : 'fa-solid fa-volume-high');
+            }
 
-function startSnow() { if (!snowInterval) snowInterval = setInterval(createSnow, 200); }
-function stopSnow() { clearInterval(snowInterval); snowInterval = null; document.getElementById('snow-container').innerHTML = ''; }
+            playBtn.addEventListener('click', () => {
+                if (isPlaying) {
+                    audio.pause();
+                    playIcon.className = 'fa-solid fa-play text-xl';
+                    album.classList.remove('spinning');
+                } else {
+                    audio.play();
+                    playIcon.className = 'fa-solid fa-pause text-xl';
+                    album.classList.add('spinning');
+                }
+                isPlaying = !isPlaying;
+            });
 
-function initSnowToggle() {
-    const btn = document.getElementById('snow-toggle');
-    const circle = document.getElementById('snow-toggle-circle');
-    const update = () => {
-        btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${snowEnabled ? 'bg-accent' : 'bg-gray-600'}`;
-        circle.style.left = snowEnabled ? '30px' : '4px';
-    };
-    update();
-    btn.addEventListener('click', () => {
-        snowEnabled = !snowEnabled;
-        localStorage.setItem('snowEnabled', snowEnabled);
-        update();
-        snowEnabled ? startSnow() : stopSnow();
-    });
-}
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+                load(currentTrack);
+                if (isPlaying) audio.play();
+            });
 
-function createRain() {
-    if (!rainEnabled || !siteEntered) return;
-    const drop = document.createElement('div');
-    drop.className = 'raindrop';
-    drop.style.left = Math.random() * window.innerWidth + 'px';
-    drop.style.top = '-10px';
-    const dur = Math.random() * 0.5 + 0.5;
-    drop.style.animationDuration = dur + 's';
-    document.getElementById('snow-container').appendChild(drop);
-    setTimeout(() => drop.remove(), dur * 1000);
-}
+            document.getElementById('next-btn').addEventListener('click', () => {
+                currentTrack = (currentTrack + 1) % playlist.length;
+                load(currentTrack);
+                if (isPlaying) audio.play();
+            });
 
-function startRain() {
-    if (!rainInterval) rainInterval = setInterval(createRain, 100);
-}
+            document.getElementById('volume-container').addEventListener('click', (e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                audio.volume = volume;
+                updateUI();
+            });
 
-function stopRain() {
-    clearInterval(rainInterval);
-    rainInterval = null;
-    const drops = document.querySelectorAll('.raindrop');
-    drops.forEach(d => d.remove());
-}
+            load(0);
+        }
 
-function initRainToggle() {
-    const btn = document.getElementById('rain-toggle');
-    const circle = document.getElementById('rain-toggle-circle');
-    const update = () => {
-        btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${rainEnabled ? 'bg-accent' : 'bg-gray-600'}`;
-        circle.style.left = rainEnabled ? '30px' : '4px';
-    };
-    update();
-    btn.addEventListener('click', () => {
-        rainEnabled = !rainEnabled;
-        localStorage.setItem('rainEnabled', rainEnabled);
-        update();
-        rainEnabled ? startRain() : stopRain();
-    });
-}
+        function initScrollTop() {
+            const btn = document.getElementById('scroll-top');
+            window.addEventListener('scroll', () => {
+                btn.style.opacity = window.scrollY >  '1' : '0';
+                btn.style.pointerEvents = window.scrollY > 300 ? 'auto' : 'none';
+            });
+            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
+        }
+
+        function initModal() {
+            const overlay = document.getElementById('modal-overlay');
+            const content = document.getElementById('modal-content');
+            const projectBtn = document.getElementById('terminal-shadows-btn');
+
+            if (projectBtn) {
+                projectBtn.addEventListener('click', () => {
+                    overlay.classList.remove('opacity-0', 'pointer-events-none');
+                    content.classList.remove('scale-95');
+                });
+            }
+
+            const close = () => {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                content.classList.add('scale-95');
+            };
+            document.getElementById('modal-close').addEventListener('click', close);
+            overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
+        }
+
+        function createSnow() {
+            if (!snowEnabled || !siteEntered) return;
+            const s = document.createElement('div');
+            s.className = 'snowflake';
+            const size = Math.random() * 4 + 2;
+            s.style.width = size + 'px';
+            s.style.height = size + 'px';
+            s.style.left = Math.random() * window.innerWidth + 'px';
+            const dur = Math.random() * 5 + 5;
+            s.style.animationDuration = dur + 's';
+            document.getElementById('snow-container').appendChild(s);
+            setTimeout(() => s.remove(), dur * 1000);
+        }
+
+        function startSnow() { if (!snowInterval) snowInterval = setInterval(createSnow, 200); }
+        function stopSnow() { clearInterval(snowInterval); snowInterval = null; document.getElementById('snow-container').innerHTML = ''; }
+
+        function initSnowToggle() {
+            const btn = document.getElementById('snow-toggle');
+            const circle = document.getElementById('snow-toggle-circle');
+            const update = () => {
+                btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${snowEnabled ? 'bg-accent' : 'bg-gray-600'}`;
+                circle.style.left = snowEnabled ? '30px' : '4px';
+            };
+            update();
+            btn.addEventListener('click', () => {
+                snowEnabled = !snowEnabled;
+                update();
+                snowEnabled ? startSnow() : stopSnow();
+            });
+        }
+
+        function createRain() {
+            if (!rainEnabled || !siteEntered) return;
+            const drop = document.createElement('div');
+            drop.className = 'raindrop';
+            drop.style.left = Math.random() * window.innerWidth + 'px';
+            drop.style.top = '-10px';
+            const dur = Math.random() * 0.5 + 0.5;
+            drop.style.animationDuration = dur + 's';
+            document.getElementById('snow-container').appendChild(drop);
+            setTimeout(() => drop.remove(), dur * 1000);
+        }
+
+        function startRain() {
+            if (!rainInterval) rainInterval = setInterval(createRain, 100);
+        }
+
+        function stopRain() {
+            clearInterval(rainInterval);
+            rainInterval = null;
+            const drops = document.querySelectorAll('.raindrop');
+            drops.forEach(d => d.remove());
+        }
+
+        function initRainToggle() {
+            const btn = document.getElementById('rain-toggle');
+            const circle = document.getElementById('rain-toggle-circle');
+            const update = () => {
+                btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${rainEnabled ? 'bg-accent' : 'bg-gray-600'}`;
+                circle.style.left = rainEnabled ? '30px' : '4px';
+            };
+            update();
+            btn.addEventListener('click', () => {
+                rainEnabled = !rainEnabled;
+                update();
+                rainEnabled ? startRain() : stopRain();
+            });
+        }
     </script>
 </body>
 </html>
