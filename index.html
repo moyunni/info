@@ -3,711 +3,788 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>rawneko | Cyber Bio</title>
+    <title>rawneko | Bio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="me" href="https://social.vivaldi.net/@rawneko">
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        bgMain: '#0c0c0e',
-                        cardFace: '#161618',
-                        accent: '#9333EA',
-                        blurBg: 'rgba(20, 20, 30, 0.3)',
-                    }
-                }
-            }
-        }
-    </script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--accent:#9333EA;--accent-rgb:147,51,234;--bg:#07060b;--card:rgba(18,16,24,0.7);--card-solid:#12101a;--glass:rgba(18,16,24,0.45);--border:rgba(255,255,255,0.06)}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:#fff;font-family:'Inter',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body::-webkit-scrollbar{width:6px}
+body::-webkit-scrollbar-track{background:transparent}
+body::-webkit-scrollbar-thumb{background:var(--accent);border-radius:10px}
 
-        html {
-            scroll-behavior: smooth;
-        }
+#cursor{position:fixed;width:18px;height:18px;border:2px solid var(--accent);border-radius:50%;pointer-events:none;z-index:9999;transition:width .25s,height .25s,border-color .25s,background .25s;top:0;left:0;opacity:0;mix-blend-mode:difference}
+#cursor.hover{width:50px;height:50px;background:rgba(var(--accent-rgb),.15);border-color:transparent}
+#cursor-dot{position:fixed;width:5px;height:5px;background:var(--accent);border-radius:50%;pointer-events:none;z-index:10000;top:0;left:0;opacity:0}
+@media(pointer:coarse){#cursor,#cursor-dot{display:none!important}}
 
-        body::-webkit-scrollbar {
-            width: 0;
-        }
+.bg-orbs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+.bg-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:.12;animation:orbFloat 20s ease-in-out infinite}
+.bg-orb:nth-child(1){width:600px;height:600px;background:var(--accent);top:-200px;left:-100px;animation-delay:0s}
+.bg-orb:nth-child(2){width:500px;height:500px;background:#6366f1;bottom:-150px;right:-100px;animation-delay:-7s}
+.bg-orb:nth-child(3){width:400px;height:400px;background:#ec4899;top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:-14s}
+@keyframes orbFloat{0%,100%{transform:translate(0,0) scale(1)}25%{transform:translate(50px,-30px) scale(1.1)}50%{transform:translate(-30px,50px) scale(.9)}75%{transform:translate(40px,20px) scale(1.05)}}
 
-        #custom-cursor {
-            position: fixed 20px;
-            height: 20px;
-            background: #9333EA;
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 9999;
-            transition: width 0.3s, height 0.3s, background-color 0.3s, opacity 0.3s;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            top: 0;
-            left: 0;
-            opacity: 0;
-            backdrop-filter: blur(4px);
-        }
+.noise{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.03}
+.noise::after{content:'';position:absolute;inset:-200%;width:400%;height:400%;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");animation:noiseAnim .5s steps(8) infinite}
+@keyframes noiseAnim{to{transform:translate(-10%,-10%)}}
 
-        #custom-cursor.active {
-            width: 40px;
-            height: 40px;
-            background: rgba(147, 51, 234, 0.6);
-        }
+.vignette{position:fixed;inset:0;z-index:2;pointer-events:none;background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.6) 100%)}
 
-        #cursor-text {
-            color: white;
-            font-size: 8px;
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+#fx-container{position:fixed;inset:0;pointer-events:none;z-index:50;overflow:hidden}
 
-        section {
-            transition: transform 0.3s ease;
-        }
+.snowflake{position:absolute;top:-10px;background:white;border-radius:50%;pointer-events:none;animation:snowFall linear forwards;filter:blur(0.5px)}
+@keyframes snowFall{0%{opacity:.8;transform:translateX(0) rotate(0deg)}100%{transform:translateY(105vh) translateX(60px) rotate(360deg);opacity:0}}
 
-        section:hover {
-            transform: translateY(-4px);
-        }
+.raindrop{position:absolute;top:-20px;width:1.5px;background:linear-gradient(to bottom,transparent,rgba(147,200,255,.6),rgba(147,200,255,.3));pointer-events:none;animation:rainFall linear forwards;border-radius:0 0 2px 2px}
+@keyframes rainFall{to{transform:translateY(105vh) translateX(15px);opacity:0}}
 
-        .snowflake {
-            position: absolute;
-            top: -10px;
-            background: white;
-            border-radius: 50%;
-            opacity: 0.5;
-            pointer-events: none;
-            animation: fall linear forwards;
-        }
+.rain-splash{position:absolute;width:4px;height:4px;border-radius:50%;border:1px solid rgba(147,200,255,.4);animation:splash .4s ease-out forwards;pointer-events:none}
+@keyframes splash{0%{transform:scale(0);opacity:1}100%{transform:scale(3);opacity:0}}
 
-        @keyframes fall {
-            to {
-                transform: translateY(100vh) translateX(20px);
-                opacity: 0;
-            }
-        }
+#welcome{position:fixed;inset:0;z-index:150;display:flex;flex-direction:column;justify-content:center;align-items:center;cursor:pointer;overflow:hidden}
+#welcome::before{content:'';position:absolute;inset:0;background:var(--bg);z-index:0}
+.welcome-bg{position:absolute;inset:0;z-index:1}
+.welcome-ring{position:absolute;border:1px solid rgba(var(--accent-rgb),.1);border-radius:50%;top:50%;left:50%;transform:translate(-50%,-50%);animation:ringPulse 4s ease-in-out infinite}
+.welcome-ring:nth-child(1){width:200px;height:200px;animation-delay:0s}
+.welcome-ring:nth-child(2){width:350px;height:350px;animation-delay:-.8s}
+.welcome-ring:nth-child(3){width:500px;height:500px;animation-delay:-1.6s}
+.welcome-ring:nth-child(4){width:650px;height:650px;animation-delay:-2.4s}
+.welcome-ring:nth-child(5){width:800px;height:800px;animation-delay:-3.2s}
+@keyframes ringPulse{0%,100%{opacity:.3;transform:translate(-50%,-50%) scale(1)}50%{opacity:.8;transform:translate(-50%,-50%) scale(1.05)}}
 
-        .spinning {
-            animation: spin 8s linear infinite;
-        }
+.welcome-content{position:relative;z-index:2;text-align:center}
+.welcome-avatar{width:120px;height:120px;border-radius:50%;overflow:hidden;margin:0 auto 24px;position:relative}
+.welcome-avatar img{width:100%;height:100%;object-fit:cover}
+.welcome-avatar::before{content:'';position:absolute;inset:-3px;border-radius:50%;background:conic-gradient(var(--accent),#6366f1,#ec4899,var(--accent));z-index:-1;animation:avatarSpin 4s linear infinite}
+.welcome-avatar::after{content:'';position:absolute;inset:0;border-radius:50%;box-shadow:0 0 40px rgba(var(--accent-rgb),.4)}
+@keyframes avatarSpin{to{transform:rotate(360deg)}}
 
-        @keyframes spin transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
+.welcome-title{font-size:3rem;font-weight:900;letter-spacing:-2px;margin-bottom:4px;background:linear-gradient(135deg,#fff 0%,rgba(var(--accent-rgb),1) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.welcome-sub{color:var(--accent);font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.3em;margin-bottom:40px}
+.welcome-enter{width:70px;height:70px;border-radius:50%;border:2px solid rgba(var(--accent-rgb),.3);display:flex;align-items:center;justify-content:center;margin:0 auto;position:relative;animation:enterPulse 2s ease-in-out infinite}
+.welcome-enter i{color:var(--accent);font-size:1.2rem;margin-left:3px}
+.welcome-enter::before{content:'';position:absolute;inset:-8px;border-radius:50%;border:1px solid rgba(var(--accent-rgb),.15);animation:enterPulse 2s ease-in-out infinite .3s}
+@keyframes enterPulse{0%,100%{transform:scale(1);opacity:1}50%{transform:scale(1.1);opacity:.6}}
+.welcome-hint{margin-top:20px;font-size:.6rem;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.4em}
 
-        @keyframes pulse {
-            0%, 100% { opacity: 1; transform: scale(1); }
-            50% { opacity: 0.5; transform: scale(1.1); }
-        }
+.card{background:var(--glass);backdrop-filter:blur(20px) saturate(1.5);-webkit-backdrop-filter:blur(20px) saturate(1.5);border:1px solid var(--border);border-radius:28px;padding:28px;position:relative;overflow:hidden;transition:transform .4s cubic-bezier(.175,.885,.32,1.275),box-shadow .4s,border-color .4s}
+.card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(var(--accent-rgb),.03) 0%,transparent 50%);pointer-events:none;border-radius:28px}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 60px rgba(var(--accent-rgb),.08);border-color:rgba(var(--accent-rgb),.15)}
 
-        .animate-pulse {
-            animation: pulse 2s ease-in-out infinite;
-        }
+.card-glow{position:absolute;width:200px;height:200px;border-radius:50%;filter:blur(80px);opacity:0;transition:opacity .5s;pointer-events:none;background:var(--accent);z-index:0}
+.card:hover .card-glow{opacity:.06}
 
-        @media (pointer: coarse) {
-            #custom-cursor { display: none; }
-        }
+.profile-avatar-wrap{position:relative;width:90px;height:90px;flex-shrink:0}
+.profile-avatar-wrap::before{content:'';position:absolute;inset:-4px;border-radius:50%;background:conic-gradient(var(--accent),transparent,var(--accent));animation:avatarSpin 6s linear infinite;opacity:.6}
+.profile-avatar{width:90px;height:90px;border-radius:50%;object-fit:cover;position:relative;z-index:1;border:3px solid var(--bg)}
+.status-dot{position:absolute;bottom:4px;right:4px;width:22px;height:22px;border-radius:50%;border:3px solid var(--card-solid);z-index:2;transition:background .5s}
 
-        .raindrop {
-            position: absolute;
-            width: 2px;
-            height: 10px;
-            background: rgba(173, 216, 230, 0.7);
-            pointer-events: none;
-            animation: fallRain linear forwards;
-        }
+.social-btn{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:all .3s;position:relative;overflow:hidden}
+.social-btn::before{content:'';position:absolute;inset:0;background:var(--accent);opacity:0;transition:opacity .3s;border-radius:14px}
+.social-btn:hover::before{opacity:1}
+.social-btn:hover{border-color:var(--accent);transform:translateY(-2px);box-shadow:0 8px 20px rgba(var(--accent-rgb),.3)}
+.social-btn i{position:relative;z-index:1;font-size:.9rem}
 
-        @keyframes fallRain {
-            to {
-                transform: translateY(100vh) translateX(5px);
-                opacity: 0;
-            }
-        }
+.section-label{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.section-label .line{flex:1;height:1px;background:linear-gradient(90deg,transparent,rgba(255,255,255,.08),transparent)}
+.section-label span{font-size:9px;font-weight:900;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.35em;white-space:nowrap}
 
-        .dynamic-blur {
-            backdrop-filter: blur(10px);
-            background: radial-gradient(circle at var(--mouse-x) var(--mouse-y), rgba(147, 51, 234, 0.1) 0%, transparent 30%);
-        }
+.status-pill{display:inline-flex;align-items:center;gap:8px;padding:6px 16px;border-radius:100px;font-size:.75rem;font-weight:700;text-transform:uppercase;backdrop-filter:blur(10px)}
+.status-pill.online{background:rgba(34,197,94,.12);color:#22c55e;border:1px solid rgba(34,197,94,.2)}
+.status-pill.offline{background:rgba(239,68,68,.12);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
+.status-pill .dot{width:7px;height:7px;border-radius:50%;animation:dotPulse 2s ease-in-out infinite}
+.status-pill.online .dot{background:#22c55e}
+.status-pill.offline .dot{background:#ef4444}
+@keyframes dotPulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(1.3)}}
 
-        .card-glow {
-            box-shadow: 0 0 20px rgba(147, 51, 234, 0.2), inset 0 0 10px rgba(147, 51, 234, 0.1);
-        }
+.time-block{font-family:'JetBrains Mono',monospace}
+.time-num{font-size:3.2rem;font-weight:700;line-height:1;background:linear-gradient(180deg,#fff 0%,rgba(255,255,255,.5) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.time-sep{font-size:2.5rem;color:var(--accent);animation:blink 1s step-end infinite;line-height:1}
+@keyframes blink{50%{opacity:0}}
+.time-seconds{font-size:3.2rem;font-weight:700;line-height:1;background:linear-gradient(180deg,var(--accent) 0%,rgba(var(--accent-rgb),.5) 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
 
-        .animate-breath {
-            animation: breath 4s ease-in-out infinite;
-        }
+.music-cover{width:64px;height:64px;border-radius:16px;overflow:hidden;flex-shrink:0;background:rgba(var(--accent-rgb),.1);display:flex;align-items:center;justify-content:center;position:relative;transition:transform .3s}
+.music-cover.spinning{animation:spin 8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.music-cover::after{content:'';position:absolute;inset:0;border-radius:16px;border:1px solid rgba(255,255,255,.05)}
 
-        @keyframes breath {
-            0%, 100% { opacity: 0.9; }
-            50% { opacity: 0.6; }
-        }
+.ctrl-btn{width:46px;height:46px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);transition:all .3s;color:#fff}
+.ctrl-btn:hover{background:rgba(255,255,255,.08);border-color:rgba(255,255,255,.1);transform:scale(1.05)}
+.play-btn{width:52px;height:52px;border-radius:16px;background:var(--accent);border:none;display:flex;align-items:center;justify-content:center;color:#fff;font-size:1.1rem;transition:all .3s;box-shadow:0 8px 24px rgba(var(--accent-rgb),.3)}
+.play-btn:hover{transform:scale(1.08);box-shadow:0 12px 32px rgba(var(--accent-rgb),.5)}
+
+.vol-track{width:80px;height:4px;background:rgba(255,255,255,.08);border-radius:4px;cursor:pointer;position:relative}
+.vol-fill{height:100%;background:var(--accent);border-radius:4px;position:relative;transition:width .1s}
+.vol-fill::after{content:'';position:absolute;right:-4px;top:50%;transform:translateY(-50%);width:10px;height:10px;border-radius:50%;background:#fff;opacity:0;transition:opacity .2s;box-shadow:0 0 8px rgba(var(--accent-rgb),.5)}
+.vol-track:hover .vol-fill::after{opacity:1}
+
+.project-item{display:flex;align-items:center;gap:16px;padding:16px;border-radius:20px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);transition:all .35s;text-decoration:none;color:#fff;cursor:pointer}
+.project-item:hover{background:rgba(var(--accent-rgb),.06);border-color:rgba(var(--accent-rgb),.15);transform:translateX(4px)}
+.project-icon{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(var(--accent-rgb),.08);color:var(--accent);font-size:1.2rem;flex-shrink:0;transition:all .3s}
+.project-item:hover .project-icon{background:rgba(var(--accent-rgb),.15);transform:scale(1.05)}
+.project-item .arrow{color:rgba(255,255,255,.15);transition:all .3s}
+.project-item:hover .arrow{color:var(--accent);transform:translateX(4px)}
+
+.toggle-wrap{display:flex;align-items:center;justify-content:space-between}
+.toggle-info{display:flex;align-items:center;gap:12px}
+.toggle-icon{width:42px;height:42px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:rgba(var(--accent-rgb),.08);color:var(--accent);font-size:1rem}
+.toggle-track{width:52px;height:28px;border-radius:100px;position:relative;cursor:pointer;transition:background .3s;border:1px solid rgba(255,255,255,.06)}
+.toggle-track.on{background:var(--accent);border-color:var(--accent)}
+.toggle-track.off{background:rgba(255,255,255,.06)}
+.toggle-thumb{position:absolute;top:3px;width:20px;height:20px;border-radius:50%;background:#fff;transition:left .3s cubic-bezier(.68,-.55,.27,1.55);box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.toggle-track.on .toggle-thumb{left:28px}
+.toggle-track.off .toggle-thumb{left:4px}
+
+.scroll-top-btn{position:fixed;bottom:24px;right:24px;width:48px;height:48px;border-radius:16px;background:var(--glass);backdrop-filter:blur(20px);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;z-index:60;opacity:0;pointer-events:none;transition:all .4s;color:var(--accent);cursor:pointer}
+.scroll-top-btn.visible{opacity:1;pointer-events:auto}
+.scroll-top-btn:hover{background:var(--accent);color:#fff;transform:translateY(-4px);box-shadow:0 12px 30px rgba(var(--accent-rgb),.3)}
+
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(12px);z-index:200;display:flex;align-items:center;justify-content:center;padding:16px;opacity:0;pointer-events:none;transition:all .4s}
+.modal-overlay.active{opacity:1;pointer-events:auto}
+.modal-box{background:var(--card-solid);border-radius:28px;padding:28px;border:1px solid var(--border);max-width:420px;width:100%;transform:scale(.9) translateY(20px);transition:all .4s cubic-bezier(.175,.885,.32,1.275)}
+.modal-overlay.active .modal-box{transform:scale(1) translateY(0)}
+
+.footer{text-align:center;padding:32px 0;font-size:.75rem;color:rgba(255,255,255,.2)}
+.footer span{color:var(--accent)}
+
+.appear{opacity:0;transform:translateY(30px);transition:opacity .6s,transform .6s cubic-bezier(.175,.885,.32,1.275)}
+.appear.visible{opacity:1;transform:translateY(0)}
+
+.glitch-line{position:fixed;width:100%;height:1px;background:rgba(var(--accent-rgb),.15);z-index:100;pointer-events:none;opacity:0;animation:glitchLine 8s linear infinite}
+@keyframes glitchLine{0%,95%,100%{opacity:0}96%{opacity:1;top:20%}97%{top:60%}98%{top:35%;height:2px}99%{top:80%;height:1px}}
+
+.particles-canvas{position:fixed;inset:0;z-index:3;pointer-events:none}
     </style>
 </head>
-<body class="bg-bgMain text-white font-['Inter'] overflow-x-hidden antialiased dynamic-blur" id="body-bg">
-    <div id="custom-cursor">
-        <span id="cursor-text"></span>
+<body>
+
+<div id="cursor"></div>
+<div id="cursor-dot"></div>
+
+<div class="bg-orbs">
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+    <div class="bg-orb"></div>
+</div>
+<div class="noise"></div>
+<div class="vignette"></div>
+<div class="glitch-line"></div>
+<canvas class="particles-canvas" id="particles"></canvas>
+
+<div id="fx-container"></div>
+
+<div id="welcome">
+    <div class="welcome-bg">
+        <div class="welcome-ring"></div>
+        <div class="welcome-ring"></div>
+        <div class="welcome-ring"></div>
+        <div class="welcome-ring"></div>
+        <div class="welcome-ring"></div>
     </div>
-
-    <a rel="me" href="https://social.vivaldi.net/@rawneko" class="hidden"></a>
-
-    <div" class="fixed inset-0 w-full h-full bg-bgMain z-[150] flex flex-col justify-center items-center cursor-pointer transition-all duration-500" data-cursor-text="ENTER">
-        <div class="text-center animate-breath">
-            <div class="w-32 h-32 mx-auto mb overflow-hidden border-4 border-accent/50 shadow-2xl shadow-accent/20">
-                <img src="./animation.gif" class="w-full h-full object-cover">
-            </div>
-            <h1 class="text-4xl font-black mb-2">rawneko</h1>
-            <p class="text-accent text-sm font-bold uppercase tracking-wider mb-8">Cyber Developer & Creator</p>
-            <div class="animate-bounce">
-                <div class="w-16 h-16 mx-auto bg-accent/20 rounded-full flex items-center justify-center border border-accent/50">
-                    <i class="fa-solid fa-play text-accent text-xl ml-1"></i>
-                </div>
-            </div>
-            <p class="mt-4 text-xs text-gray-500 uppercase tracking-widest">Enter the Matrix</p>
+    <div class="welcome-content">
+        <div class="welcome-avatar">
+            <img src="./animation.gif" alt="rawneko">
         </div>
+        <h1 class="welcome-title">rawneko</h1>
+        <p class="welcome-sub">Developer & Creator</p>
+        <div class="welcome-enter">
+            <i class="fa-solid fa-play"></i>
+        </div>
+        <p class="welcome-hint">click anywhere to enter</p>
     </div>
+</div>
 
-    <div id="snow-container" class="fixed inset-0 pointer-events-none z-[50] overflow-hidden"></div>
+<button class="scroll-top-btn" id="scroll-top">
+    <i class="fa-solid fa-chevron-up"></i>
+</button>
 
-    <button id="scroll-top" class="fixed bottom-6 right-6 w-12 h-12 bg-accent rounded-full flex items-center justify-center shadow-lg z-[60] opacity-0 pointer-events-none transition-all duration-300 hover:scale-110" data-cursor-text="UP">
-        <i class="fa-solid fa-arrow-up"></i>
-    </button>
+<div class="modal-overlay" id="modal-overlay">
+    <div class="modal-box">
+        <div style="text-align:center;margin-bottom:24px">
+            <div class="project-icon" style="width:56px;height:56px;font-size:1.5rem;margin:0 auto 16px;border-radius:18px">
+                <i class="fa-solid fa-terminal"></i>
+            </div>
+            <h3 style="font-size:1.25rem;font-weight:900;margin-bottom:6px">Terminal-Shadows</h3>
+            <p style="color:rgba(255,255,255,.35);font-size:.8rem">Choose a platform to view the source code</p>
+        </div>
+        <a href="https://github.com/rawneko/Terminal-Shadows" target="_blank" class="project-item" style="margin-bottom:12px">
+            <div style="width:48px;height:48px;background:#fff;border-radius:14px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="#000"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+            </div>
+            <div style="flex:1;text-align:left">
+                <h4 style="font-weight:700;font-size:.9rem">GitHub</h4>
+                <p style="font-size:.75rem;color:rgba(255,255,255,.3)">Official Repository</p>
+            </div>
+            <i class="fa-solid fa-arrow-right arrow"></i>
+        </a>
+        <button id="modal-close" style="width:100%;padding:12px;background:none;border:none;color:rgba(255,255,255,.3);font-size:.8rem;font-weight:700;cursor:pointer;font-family:inherit;transition:color .3s">
+            <i class="fa-solid fa-xmark" style="margin-right:6px"></i>Close
+        </button>
+    </div>
+</div>
 
-    <div id="modal-overlay" class="fixed inset-0 bg-black/80 z-[200] flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
-        <div id="modal-content" class="bg-cardFace rounded-[32px] p-6 border border-white/5 max-w-md w-full transform scale-95 transition-all duration-300">
-            <div class="text-center mb-6">
-                <div class="w-16 h-16 bg-accent/20 rounded-2xl flex items-center justify-center text-accent mx-auto mb-4">
-                    <i class="fa-solid fa-terminal text-2xl"></i>
+<a rel="me" href="https://social.vivaldi.net/@rawneko" style="display:none"></a>
+
+<main id="main-container" style="opacity:0;transition:opacity .8s;max-width:520px;margin:0 auto;padding:16px;padding-top:48px">
+
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div style="display:flex;align-items:center;gap:20px;position:relative;z-index:1;flex-wrap:wrap;justify-content:center">
+            <div class="profile-avatar-wrap">
+                <img id="profile-avatar" src="./animation.gif" class="profile-avatar" alt="rawneko">
+                <div class="status-dot" id="status-dot"></div>
+            </div>
+            <div style="flex:1;min-width:180px;text-align:center">
+                <h1 style="font-size:1.8rem;font-weight:900;letter-spacing:-1px;margin-bottom:2px">rawneko</h1>
+                <p style="color:var(--accent);font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.25em;margin-bottom:16px">Developer & Creator</p>
+                <div style="display:flex;gap:8px;justify-content:center">
+                    <a href="https://t.me/QLogovo" target="_blank" class="social-btn"><i class="fa-brands fa-telegram"></i></a>
+                    <a href="https://discord.com/users/1244006661518000170" target="_blank" class="social-btn"><i class="fa-brands fa-discord"></i></a>
+                    <a href="https://social.vivaldi.net/@rawneko" target="_blank" class="social-btn"><i class="fa-brands fa-mastodon"></i></a>
+                    <a href="https://github.com/rawneko" target="_blank" class="social-btn"><i class="fa-brands fa-github"></i></a>
                 </div>
-                <h3 class="text-xl font-black mb-2">Terminal-Shadows</h3>
-                <p class="text-gray-400 text-sm">Choose a platform to view the source code</p>
             </div>
-            <div class="space-y-3">
-                <a href="https://github.com/rawneko/Terminal-Shadows" target="_blank" class="flex items-center gap-4 p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="GITH">
-                    <div class="w-12 h-12 bg-white rounded-xl flex items-center justify-center overflow-hidden">
-                        <svg class="w-8 h-8" viewBox="0 0 24 24" fill="#000"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <h4 class="font-bold group-hover:text-accent transition-colors">GitHub</h4>
-                        <p class="text-sm text-gray-500">Official Repository</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                </a>
+        </div>
+    </section>
+
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div class="section-label">
+            <div class="line"></div>
+            <span>Status</span>
+            <div class="line"></div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
+            <div style="display:flex;align-items:center;gap:16px">
+                <div style="text-align:center">
+                    <p style="font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px">From</p>
+                    <p style="font-size:1.1rem;font-weight:900;font-family:'JetBrains Mono',monospace">8:00</p>
+                </div>
+                <i class="fa-solid fa-arrow-right" style="color:rgba(255,255,255,.1)"></i>
+                <div style="text-align:center">
+                    <p style="font-size:9px;color:rgba(255,255,255,.25);text-transform:uppercase;letter-spacing:.15em;margin-bottom:4px">To</p>
+                    <p style="font-size:1.1rem;font-weight:900;font-family:'JetBrains Mono',monospace">23:00</p>
+                </div>
             </div>
-            <button id="modal-close" class="w-full mt-4 p-3 text-gray-500 hover:text-white transition-colors text-sm font-bold" data-cursor-text="CLOSE">
-                <i class="fa-solid fa-xmark mr-2"></i>Close
+            <div class="status-pill" id="status-badge">
+                <div class="dot" id="status-indicator"></div>
+                <span id="status-text"></span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div class="section-label">
+            <div class="line"></div>
+            <span>Now Playing</span>
+            <div class="line"></div>
+        </div>
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:20px;position:relative;z-index:1">
+            <div class="music-cover" id="album-cover">
+                <i class="fa-solid fa-music" style="color:var(--accent);font-size:1.3rem"></i>
+            </div>
+            <div style="flex:1;min-width:0">
+                <p id="track-title" style="font-weight:700;font-size:.95rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Loading...</p>
+                <p id="track-artist" style="font-size:.8rem;color:rgba(255,255,255,.3);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">Please wait</p>
+            </div>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;position:relative;z-index:1">
+            <div style="display:flex;align-items:center;gap:6px">
+                <button id="prev-btn" class="ctrl-btn"><i class="fa-solid fa-backward-step"></i></button>
+                <button id="play-btn" class="play-btn"><i id="play-icon" class="fa-solid fa-play"></i></button>
+                <button id="next-btn" class="ctrl-btn"><i class="fa-solid fa-forward-step"></i></button>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+                <button id="mute-btn" class="ctrl-btn" style="width:36px;height:36px;border-radius:10px"><i id="volume-icon" class="fa-solid fa-volume-high" style="font-size:.75rem"></i></button>
+                <div class="vol-track" id="volume-container">
+                    <div class="vol-fill" id="volume-bar" style="width:70%"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div class="section-label">
+            <div class="line"></div>
+            <span>Active Projects</span>
+            <div class="line"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;position:relative;z-index:1">
+            <button id="terminal-shadows-btn" class="project-item">
+                <div class="project-icon"><i class="fa-solid fa-terminal"></i></div>
+                <div style="flex:1;text-align:left">
+                    <h3 style="font-weight:700;font-size:.9rem">Terminal-Shadows</h3>
+                    <p style="font-size:.75rem;color:rgba(255,255,255,.3)">Terminal-based adventure</p>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow"></i>
             </button>
+            <a href="https://github.com/rawneko/To-Do-list" target="_blank" class="project-item">
+                <div class="project-icon"><i class="fa-solid fa-list-check"></i></div>
+                <div style="flex:1;text-align:left">
+                    <h3 style="font-weight:700;font-size:.9rem">To-Do List</h3>
+                    <p style="font-size:.75rem;color:rgba(255,255,255,.3)">An application for scheduling tasks with M3</p>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+            <a href="https://rawneko.github.io/RawGPT" target="_blank" class="project-item">
+                <div class="project-icon"><i class="fa-solid fa-brain"></i></div>
+                <div style="flex:1;text-align:left">
+                    <h3 style="font-weight:700;font-size:.9rem">RawGPT</h3>
+                    <p style="font-size:.75rem;color:rgba(255,255,255,.3)">Ollama client for Windows 10/11</p>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+            <a href="https://github.com/rawneko/RawGPT-android" target="_blank" class="project-item">
+                <div class="project-icon"><i class="fa-solid fa-brain"></i></div>
+                <div style="flex:1;text-align:left">
+                    <h3 style="font-weight:700;font-size:.9rem">RawGPT (android)</h3>
+                    <p style="font-size:.75rem;color:rgba(255,255,255,.3)">Ollama client for android 7+</p>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+            <a href="https://github.com/rawneko/discord-autoquest" target="_blank" class="project-item">
+                <div class="project-icon"><i class="fa-solid fa-robot"></i></div>
+                <div style="flex:1;text-align:left">
+                    <h3 style="font-weight:700;font-size:.9rem">Discord Autoquest</h3>
+                    <p style="font-size:.75rem;color:rgba(255,255,255,.3)">Python automation for Discord tasks</p>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
+            <a href="https://rawneko.github.io/rkn-game" target="_blank" class="project-item">
+                <div class="project-icon"><i class="fa-solid fa-shield-halved"></i></div>
+                <div style="flex:1;text-align:left">
+                    <h3 style="font-weight:700;font-size:.9rem">РКН Simulator</h3>
+                    <p style="font-size:.75rem;color:rgba(255,255,255,.3)">Satirical game about internet censorship</p>
+                </div>
+                <i class="fa-solid fa-arrow-right arrow"></i>
+            </a>
         </div>
-    </div>
+    </section>
 
-    <main id="main-container" class="opacity-0 transition-opacity duration-700 w-full max-w-[500px] mx-auto p-4 md:pt-12 space-y-6">
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow relative overflow-hidden">
-            <div class="flex flex-col sm:flex-row items-center gap-6 relative z-10">
-                <div class="relative">
-                    <img id="profile-avatar" src="./animation.gif" class="w-24 h-24 rounded-full border-4 border-white/5 object-cover">
-                    <div id="status-dot" class="absolute bottom-1 right-1 w-6 h-6 border-4 border-cardFace rounded-full shadow-lg transition-colors duration-500"></div>
-                </div>
-                <div class="text-center sm:text-left flex-1">
-                    <h1 id="profile-name" class="text-2xl md:text-3xl font-black mb-1">rawneko</h1>
-                    <p id="profile-desc" class="text-accent text-sm font-bold uppercase tracking-wider mb-4">Cyber Developer & Creator</p>
-                    <div class="flex justify-center sm:justify-start gap-3">
-                        <a href="https://t.me/QLogovo" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="TG">
-                            <i class="fa-brands fa-telegram"></i>
-                        </a>
-                        <a href="https://discord.com/users/1244006661518000170" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="DS">
-                            <i class="fa-brands fa-discord"></i>
-                        </a>
-                        <a href="https://social.vivaldi.net/@rawneko" target="_blank" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="MDB">
-                            <i class="fa-brands fa-mastodon"></i>
-                        </a>
-                        <a href="https://github.com/rawneko" target="_blank" class="w-10 h-10 bg-white/5-xl flex items-center justify-center hover:bg-accent transition-colors" data-cursor-text="GIT">
-                            <i class="fa-brands fa-github"></i>
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div class="section-label">
+            <div class="line"></div>
+            <span>Support Aprel!</span>
+            <div class="line"></div>
+        </div>
+        <div style="display:flex;flex-direction:column;align-items:center;position:relative;z-index:1">
+            <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" style="margin-bottom:16px;display:block;border-radius:16px;overflow:hidden;border:1px solid var(--border)">
+                <img src="https://forum.aprelteam.su/uploads/monthly_2023_12/77521200b8e4a2eb5952f0769ff7cbd3.jpg.6cfbfa65f5564464bc8b3a6d4d3fe900.jpg" alt="Aprel Forum" style="max-width:100%;height:auto;display:block">
+            </a>
+            <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" style="color:var(--accent);font-weight:700;font-size:1rem;text-decoration:none;transition:opacity .3s">
+                Join the Community!
+            </a>
+        </div>
+    </section>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="h-px flex-1 bg-white/10"></div>
-                <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Status</h2>
-                <div class="h-px flex-1 bg-white/10"></div>
+    <section class="card appear" style="margin-bottom:20px;border:1px solid rgba(var(--accent-rgb),.15)">
+        <div class="card-glow"></div>
+        <div style="position:relative;z-index:1">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+                <span style="font-size:9px;font-weight:900;text-transform:uppercase;letter-spacing:.3em;color:rgba(255,255,255,.25)"><i class="fa-solid fa-location-dot" style="margin-right:6px"></i>Saratov Time</span>
+                <span id="date-display" style="font-size:9px;color:rgba(255,255,255,.2);font-family:'JetBrains Mono',monospace"></span>
             </div>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-4">
-                    <div class="text-center">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">FROM</p>
-                        <p class="text-lg font-black">8:00</p>
-                    </div>
-                    <div class="text-gray-600"><i class="fa-solid fa-arrow-right"></i></div>
-                    <div class="text-center">
-                        <p class="text-[10px] text-gray-500 uppercase tracking-wider mb-1">TO</p>
-                        <p class="text-lg font-black">23:00</p>
-                    </div>
-                </div>
-                <div id="status-badge" class="flex items-center gap-2 px-4 py-2 rounded-full transition-colors duration-500">
-                    <div id="status-indicator" class="w-2 h-2 rounded-full animate-pulse"></div>
-                    <span id="status-text" class="text-sm font-bold uppercase"></span>
+            <div class="time-block" style="display:flex;justify-content:center;align-items:baseline;gap:4px">
+                <span class="time-num" id="hours">00</span>
+                <span class="time-sep">:</span>
+                <span class="time-num" id="minutes">00</span>
+                <span class="time-sep">:</span>
+                <span class="time-seconds" id="seconds">00</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div class="toggle-wrap" style="position:relative;z-index:1">
+            <div class="toggle-info">
+                <div class="toggle-icon"><i class="fa-solid fa-snowflake"></i></div>
+                <div>
+                    <p style="font-weight:700;font-size:.85rem">Snow Effect</p>
+                    <p style="font-size:.7rem;color:rgba(255,255,255,.25)">Visual atmosphere</p>
                 </div>
             </div>
-        </section>
+            <div class="toggle-track" id="snow-toggle">
+                <div class="toggle-thumb"></div>
+            </div>
+        </div>
+    </section>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="h-px flex-1 bg-white/10"></div>
-                <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Music</h2>
-                <div class="h-px flex-1 bg-white/10"></div>
-            </div>
-            <div class="flex items-center gap-4 mb-6 text-left">
-                <div id="album-cover" class="w-16 h-16 bg-accent/20 rounded-xl flex items-center justify-center overflow-hidden transition-transform duration-500">
-                    <i class="fa-solid fa-music text-accent text-2xl"></i>
-                </div>
-                <div class="flex-1 min-w-0">
-                    <p id="track-title" class="font-bold truncate">Loading...</p>
-                    <p id="track-artist" class="text-sm text-gray-500 truncate">Please wait</p>
-                </div>
-            </div>
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-2">
-                    <button id="prev-btn" class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors" data-cursor-text="PREV"><i class="fa-solid fa-backward-step"></i></button>
-                    <button id="play-btn" class="w-14 h-14 bg-accent rounded-xl flex items-center justify-center hover:opacity-90 transition-all" data-cursor-text="PLAY"><i id="play-icon" class="fa-solid fa-play text-xl"></i></button>
-                    <button id="next-btn" class="w-12 h-12 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors" data-cursor-text="NEXT"><i class="fa-solid fa-forward-step"></i></button>
-                </div>
-                <div class="flex items-center gap-2">
-                    <button id="mute-btn" class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center hover:bg-white/10 transition-colors" data-cursor-text="MUTE"><i id="volume-icon" class="fa-solid fa-volume-high"></i></button>
-                    <div id="volume-container" class="w-20 h-2 bg-white/10 rounded-full cursor-pointer relative" data-cursor-text="VOL">
-                        <div id="volume-bar" class="h-full bg-accent rounded-full" style="width: 70%"></div>
-                    </div>
+    <section class="card appear" style="margin-bottom:20px">
+        <div class="card-glow"></div>
+        <div class="toggle-wrap" style="position:relative;z-index:1">
+            <div class="toggle-info">
+                <div class="toggle-icon"><i class="fa-solid fa-cloud-rain"></i></div>
+                <div>
+                    <p style="font-weight:700;font-size:.85rem">Rain Effect</p>
+                    <p style="font-size:.7rem;color:rgba(255,255,255,.25)">Dynamic weather</p>
                 </div>
             </div>
-        </section>
-
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
-            <h2 class="text-xl font-black mb-6 text-left">Active Projects</h2>
-            <div class="space-y-4">
-                <button id="terminal-shadows-btn" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group" data-cursor-text="TS">
-                    <div class="flex items-center gap-4">
-                        <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-terminal text-2xl"></i></div>
-                        <div class="flex-1 text-left">
-                            <h3 class="font-bold group-hover:text-accent transition-colors">Terminal-Shadows</h3>
-                            <p class="text-sm text-gray-500">Terminal-based adventure</p>
-                        </div>
-                        <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                    </div>
-                </button>
-                <a href="https://github.com/rawneko/To-Do-list" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="TODO">
-                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                        <i class="fa-solid fa-list-check text-2xl"></i>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <h3 class="font-bold group-hover:text-accent transition-colors">To-Do List</h3>
-                        <p class="text-sm text-gray-500">An application for scheduling tasks with M3</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                </a>
-                <a href="https://rawneko.github.io/RawGPT" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="GPT">
-                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                        <i class="fa-solid fa-brain text-2xl"></i>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <h3 class="font-bold group-hover-colors">RawGPT</h3>
-                        <p class="text-sm text-gray-500">Ollama client for Windows 10/11</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                </a>
-                <a href="https://github.com/rawneko/RawGPT-android" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="GPT">
-                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                        <i class="fa-solid fa-brain text-2xl"></i>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <h3 class="font-bold group-hover:text-accent transition-colors">RawGPT (android)</h3>
-                        <p class="text-sm text-gray-500">Ollama client forp>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                </a>
-                <a href="https://github/discord-autoquest" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="BOT">
-                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                        <i class="fa-solid fa-robot text-2xl"></i>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <h3 class="font-bold group-hover:text-accent transition-colors">Discord Autoquest</h3>
-                        <p class="text-sm text-gray-500">Python automation for Discord tasks</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                </a>
-                <a href="https://rawneko.github.io/rkn-game" target="_blank" class="w-full p-4 bg-white/5 rounded-2xl hover:bg-white/10 transition-all group flex items-center gap-4" data-cursor-text="RKN">
-                    <div class="w-12 h-12 bg-accent/20 rounded-xl flex items-center justify-center text-accent">
-                        <i class="fa-solid fa-shield-halved text-2xl"></i>
-                    </div>
-                    <div class="flex-1 text-left">
-                        <h3 class="font-bold group-hover:text-accent transition-colors">РКН Simulator</h3>
-                        <p class="text-sm text-gray-500">Satirical game about internet censorship</p>
-                    </div>
-                    <i class="fa-solid fa-arrow-right text-gray-600 group-hover:text-accent group-hover:translate-x-1 transition-all"></i>
-                </a>
+            <div class="toggle-track" id="rain-toggle">
+                <div class="toggle-thumb"></div>
             </div>
-        </section>
+        </div>
+    </section>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
-            <div class="flex items-center gap-3 mb-6">
-                <div class="h-px flex-1 bg-white/10"></div>
-                <h2 class="text-[10px] font-black text-gray-500 uppercase tracking-[0.3em]">Support Aprel!</h2>
-                <div class="h-px flex-1 bg-white/10"></div>
-            </div>
-            <div class="flex flex-col items-center">
-                <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" class="mb-4 block" data-cursor-text="FORUM">
-                    <img src="https://forum.aprelteam.su/uploads/monthly_2023_12/77521200b8e4a2eb5952f0769ff7cbd3.jpg.6cfbfa65f5564464bc8b3a6d4d3fe900.jpg" alt="Aprel Forum" class="rounded-xl border border-white/10 max-w-full h-auto">
-                </a>
-                <a href="https://forum.aprelteam.su/?&_rid=3087" target="_blank" class="text-lg font-bold text-center text-accent hover:underline" data-cursor-text="JOIN">
-                    Join the Community!
-                </a>
-            </div>
-        </section>
+    <div class="footer appear">Made with <span>♥</span> by rawneko</div>
+</main>
 
-        <section class="bg-accent rounded-[32px] p-px card-glow">
-            <div class="bg-cardFace rounded-[31px] p-6">
-                <div class="flex flex-col gap-6">
-                    <div class="flex justify-between items-center">
-                        <span class="text-[10px] font-black uppercase tracking-widest text-gray-500"><i class="fa-solid fa-location-dot mr-2"></i>Saratov Time</span>
-                        <span id="date-display" class="text-[10px] text-gray-500"></span>
-                    </div>
-                    <div class="flex justify-center items-center gap-2">
-                        <div id="hours" class="text-5xl font-black">00</div>
-                        <div class="text-4xl font-black text-accent">:</div>
-                        <div id="minutes" class="text-5xl font-black">00</div>
-                        <div class="text-4xl font-black text-accent">:</div>
-                        <div id="seconds" class="text-5xl font-black text-accent">00</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+<audio id="audio-player" preload="auto"></audio>
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-snowflake"></i></div>
-                    <div class="text-left">
-                        <p class="font-bold text-sm">Snow Effect</p>
-                        <p class="text-xs text-gray-500">Visual atmosphere</p>
-                    </div>
-                </div>
-                <button id="snow-toggle" class="w-14 h-8 rounded-full relative transition-all duration-300" data-cursor-text="SNOW">
-                    <div id="snow-toggle-circle" class="absolute top-1 w-6 h-6 bg-white rounded-full transition-all duration-300"></div>
-                </button>
-            </div>
-        </section>
+<script>
+const SNOW_ENABLED = true;
+const RAIN_ENABLED = false;
 
-        <section class="bg-cardFace rounded-[32px] p-6 border border-white/5 card-glow">
-            <div class="flex items-center justify-between">
-                <div class="flex items-center gap-3">
-                    <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center text-accent"><i class="fa-solid fa-cloud-rain"></i></div>
-                    <div class="text-left">
-                        <p class="font-bold text-sm">Rain Effect</p>
-                        <p class="text-xs text-gray-500">Dynamic weather</p>
-                    </div>
-                </div>
-                <button id="rain-toggle" class="w-14 h-8 rounded-full relative transition-all duration-300" data-cursor-text="RAIN">
-                    <div id="rain-toggle-circle" class="absolute top-1 w-6 h-6 bg-white rounded-full left-[30px]"></div>
-                </button>
-            </div>
-        </section>
+let snowOn = SNOW_ENABLED;
+let rainOn = RAIN_ENABLED;
+let snowInterval = null;
+let rainInterval = null;
+let siteEntered = false;
 
-        <footer class="text-center py-6 text-gray-600 text-sm">Made with <span class="text-accent">♥</span> by rawneko</footer>
-    </main>
+const playlist = [
+    { title: "Watch Dogs", artist: "Hudson Mohawke", src: "music/Hudson Mohawke - Watch Dogs.mp3" },
+    { title: "NIGHT DANCER", artist: "imase", src: "music/imase - NIGHT DANCER.mp3" },
+    { title: "Fireworks in Full Bloom", artist: "Taku Iwasaki", src: "music/Taku Iwasaki - Fireworks in Full Bloom.mp3" }
+];
 
-    <audio id="audio-player" preload="auto"></audio>
-    <script>
-        let snowEnabled = false;
-        let rainEnabled = true;
-        let snowInterval = null;
-        let rainInterval = null;
-        let siteEntered = false;
+let currentTrack = 0;
+let isPlaying = false;
+let volume = 0.7;
 
-        const playlist = [
-            { title: "Watch Dogs", artist: "Hudson Mohawke", src: "music/Hudson Mohawke - Watch Dogs.mp3" },
-            { title: "NIGHT DANCER", artist: "imase", src: "music/imase - NIGHT DANCER.mp3" },
-            { title: "Fireworks in Full Bloom", artist: "Taku Iwasaki", src: "music/Taku Iwasaki - Fireworks in Full Bloom.mp3" }
-        ];
+document.addEventListener('DOMContentLoaded', () => {
+    initParticles();
+    initCursor();
+    initWelcome();
+    initClock();
+    initStatus();
+    initMusic();
+    initScrollTop();
+    initModal();
+    initToggles();
+    initAppear();
+    initCardGlow();
+});
 
-        let currentTrack = 0;
-        let isPlaying = false;
-        let volume = 0.7;
-
-        document.addEventListener('mousemove', (e) => {
-            const x = e.clientX;
-            const y = e.clientY;
-            document.documentElement.style.setProperty('--mouse-x', x + 'px');
-            document.documentElement.style.setProperty('--mouse-y', y + 'px');
-        });
-
-        document.addEventListener('DOMContentLoaded', () => {
-            updateClock();
-            setInterval(updateClock, 1000);
-            updateStatus();
-            setInterval(updateStatus, 60000);
-
-            initCursor();
-            initSnowToggle();
-            initRainToggle();
-            initMusicPlayer();
-            initScrollTop();
-            initModal();
-            initWelcomeScreen();
-        });
-
-        function initCursor() {
-            const cursor = document.getElementById('custom-cursor');
-            const text = document.getElementById('cursor-text');
-            let mX = 0, mY = 0, cX = 0, cY = 0;
-            const speed = 0.15;
-
-            document.addEventListener('mousemove', (e) => {
-                mX = e.clientX;
-                mY = e.clientY;
-                cursor.style.opacity = '1';
-            });
-
-            function animate() {
-                cX += (mX - cX) * speed;
-                cY += (mY - cY) * speed;
-                cursor.style.transform = `translate3d(${cX - cursor.offsetWidth / 2}px, ${cY - cursor.offsetHeight / 2}px, 0)`;
-                requestAnimationFrame(animate);
-            }
-            animate();
-
-            const hoverables = document.querySelectorAll('a, button, [data-cursor-text]');
-            hoverables.forEach(el => {
-                el.addEventListener('mouseenter', () => {
-                    const cursorText = el.getAttribute('data-cursor-text');
-                    text.innerText = cursorText || '';
-                    cursor.classList.add('active');
-                });
-                el.addEventListener('mouseleave', () => = '';
-                    cursor.classList.remove('active');
-                });
-            });
-        }
-
-        function initWelcomeScreen() {
-            const welcome = document.getElementById('welcome-screen');
-            const main = document.getElementById('main-container');
-            const audio = document.getElementById('audio-player');
-            const playIcon = document.getElementById('play-icon');
-            const album = document.getElementById('album-cover');
-
-            welcome.addEventListener('click', () => {
-                if (siteEntered) return;
-                siteEntered = true;
-                welcome.style.opacity = '0';
-                setTimeout(() => {
-                    welcome.style.display = 'none';
-                    main.style.opacity = '1';
-                    if (snowEnabled) startSnow();
-                    if (rainEnabled) startRain();
-                    audio.play().then(() => {
-                        isPlaying = true;
-                        playIcon.className = 'fa-solid fa-pause text-xl';
-                        album.classList.add('spinning');
-                    }).catch(e => console.log(e));
-                }, 500);
-            });
-        }
-
-        function updateStatus() {
-            const now = new Date();
-            const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
-            const current = saratov.getHours() * 60 + saratov.getMinutes();
-            const isOnline = current >= 480 && current < 1380;
-
-            const elements = {
-                dot: document.getElementById('status-dot'),
-                badge: document.getElementById('status-badge'),
-                indicator: document.getElementById('status-indicator'),
-                txt: document.getElementById('status-text')
-            };
-
-            const color = isOnline ? 'green' : 'red';
-            elements.dot.className = `absolute bottom-1 right-1 w-6 h-6 bg-${color}-500 border-4 border-cardFace rounded-full shadow-lg`;
-            elements.badge.className = `flex items-center gap-2 px-4 py-2 bg-${color}-500/20 rounded-full`;
-            elements.indicator.className = `w-2 h-2 bg-${color}-500 rounded-full animate-pulse`;
-            elements.txt.className = `text-sm font-bold text-${color}-500`;
-            elements.txt.textContent = isOnline ? 'ONLINE' : 'OFFLINE';
-        }
-
-        function updateClock() {
-            const now = new Date();
-            const saratov = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
-            document.getElementById('hours').textContent = String(saratov.getHours()).padStart(2, '0');
-            document.getElementById('minutes').textContent = String(saratov.getMinutes()).padStart(2, '0');
-            document.getElementById('seconds').textContent = String(saratov.getSeconds()).padStart(2, '0');
-            const d = String(saratov.getDate()).padStart(2, '0');
-            const m = String(saratov.getMonth() + 1).padStart(2, '0');
-            document.getElementById('date-display').textContent = `${d}.${m}.${saratov.getFullYear()}`;
-        }
-
-        function initMusicPlayer() {
-            const audio = document.getElementById('audio-player');
-            const playBtn = document.getElementById('play-btn');
-            const playIcon = document.getElementById('play-icon');
-            const album = document.getElementById('album-cover');
-            const volBar = document.getElementById('volume-bar');
-            const volIcon = document.getElementById('volume-icon');
-
-            function load(index) {
-                const track = playlist[index];
-                audio.src = track.src;
-                document.getElementById('track-title').textContent = track.title;
-                document.getElementById('track-artist').textContent = track.artist;
-                audio.volume = volume;
-                updateUI();
-            }
-
-            function updateUI() {
-                volBar.style.width = (volume * 100) + '%';
-                volIcon.className = volume === 0 ? 'fa-solid fa-volume-xmark' : (volume < 0.5 ? 'fa-solid fa-volume-low' : 'fa-solid fa-volume-high');
-            }
-
-            playBtn.addEventListener('click', () => {
-                if (isPlaying) {
-                    audio.pause();
-                    playIcon.className = 'fa-solid fa-play text-xl';
-                    album.classList.remove('spinning');
-                } else {
-                    audio.play();
-                    playIcon.className = 'fa-solid fa-pause text-xl';
-                    album.classList.add('spinning');
+function initParticles() {
+    const c = document.getElementById('particles');
+    const ctx = c.getContext('2d');
+    let w, h, pts = [];
+    function resize() { w = c.width = innerWidth; h = c.height = innerHeight; }
+    resize();
+    addEventListener('resize', resize);
+    for (let i = 0; i < 60; i++) pts.push({ x: Math.random() * w, y: Math.random() * h, vx: (Math.random() - .5) * .3, vy: (Math.random() - .5) * .3, r: Math.random() * 1.5 + .5 });
+    function draw() {
+        ctx.clearRect(0, 0, w, h);
+        for (let i = 0; i < pts.length; i++) {
+            let p = pts[i];
+            p.x += p.vx; p.y += p.vy;
+            if (p.x < 0) p.x = w; if (p.x > w) p.x = 0;
+            if (p.y < 0) p.y = h; if (p.y > h) p.y = 0;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(147,51,234,.15)';
+            ctx.fill();
+            for (let j = i + 1; j < pts.length; j++) {
+                let p2 = pts[j];
+                let dx = p.x - p2.x, dy = p.y - p2.y;
+                let dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    ctx.beginPath();
+                    ctx.moveTo(p.x, p.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.strokeStyle = `rgba(147,51,234,${.04 * (1 - dist / 120)})`;
+                    ctx.stroke();
                 }
-                isPlaying = !isPlaying;
-            });
-
-            document.getElementById('prev-btn').addEventListener('click', () => {
-                currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
-                load(currentTrack);
-                if (isPlaying) audio.play();
-            });
-
-            document.getElementById('next-btn').addEventListener('click', () => {
-                currentTrack = (currentTrack + 1) % playlist.length;
-                load(currentTrack);
-                if (isPlaying) audio.play();
-            });
-
-            document.getElementById('volume-container').addEventListener('click', (e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                volume = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-                audio.volume = volume;
-                updateUI();
-            });
-
-            load(0);
-        }
-
-        function initScrollTop() {
-            const btn = document.getElementById('scroll-top');
-            window.addEventListener('scroll', () => {
-                btn.style.opacity = window.scrollY >  '1' : '0';
-                btn.style.pointerEvents = window.scrollY > 300 ? 'auto' : 'none';
-            });
-            btn.addEventListener('click', () => window.scrollTo({ top: 0, behavior: 'smooth' }));
-        }
-
-        function initModal() {
-            const overlay = document.getElementById('modal-overlay');
-            const content = document.getElementById('modal-content');
-            const projectBtn = document.getElementById('terminal-shadows-btn');
-
-            if (projectBtn) {
-                projectBtn.addEventListener('click', () => {
-                    overlay.classList.remove('opacity-0', 'pointer-events-none');
-                    content.classList.remove('scale-95');
-                });
             }
-
-            const close = () => {
-                overlay.classList.add('opacity-0', 'pointer-events-none');
-                content.classList.add('scale-95');
-            };
-            document.getElementById('modal-close').addEventListener('click', close);
-            overlay.addEventListener('click', (e) => { if(e.target === overlay) close(); });
         }
+        requestAnimationFrame(draw);
+    }
+    draw();
+}
 
-        function createSnow() {
-            if (!snowEnabled || !siteEntered) return;
-            const s = document.createElement('div');
-            s.className = 'snowflake';
-            const size = Math.random() * 4 + 2;
-            s.style.width = size + 'px';
-            s.style.height = size + 'px';
-            s.style.left = Math.random() * window.innerWidth + 'px';
-            const dur = Math.random() * 5 + 5;
-            s.style.animationDuration = dur + 's';
-            document.getElementById('snow-container').appendChild(s);
-            setTimeout(() => s.remove(), dur * 1000);
+function initCursor() {
+    const cur = document.getElementById('cursor');
+    const dot = document.getElementById('cursor-dot');
+    let mx = 0, my = 0, cx = 0, cy = 0, dx = 0, dy = 0;
+    document.addEventListener('mousemove', e => {
+        mx = e.clientX; my = e.clientY;
+        cur.style.opacity = '1'; dot.style.opacity = '1';
+    });
+    function loop() {
+        cx += (mx - cx) * .12; cy += (my - cy) * .12;
+        dx += (mx - dx) * .25; dy += (my - dy) * .25;
+        cur.style.transform = `translate(${cx - cur.offsetWidth / 2}px,${cy - cur.offsetHeight / 2}px)`;
+        dot.style.transform = `translate(${dx - 2.5}px,${dy - 2.5}px)`;
+        requestAnimationFrame(loop);
+    }
+    loop();
+    document.querySelectorAll('a,button,.project-item,.social-btn,.toggle-track,.ctrl-btn,.play-btn,.vol-track').forEach(el => {
+        el.addEventListener('mouseenter', () => cur.classList.add('hover'));
+        el.addEventListener('mouseleave', () => cur.classList.remove('hover'));
+    });
+}
+
+function initWelcome() {
+    const w = document.getElementById('welcome');
+    const m = document.getElementById('main-container');
+    const audio = document.getElementById('audio-player');
+    w.addEventListener('click', () => {
+        if (siteEntered) return;
+        siteEntered = true;
+        w.style.transition = 'opacity .6s, filter .6s';
+        w.style.opacity = '0';
+        w.style.filter = 'blur(20px)';
+        setTimeout(() => {
+            w.style.display = 'none';
+            m.style.opacity = '1';
+            triggerAppear();
+            if (snowOn) startSnow();
+            if (rainOn) startRain();
+            audio.play().then(() => {
+                isPlaying = true;
+                document.getElementById('play-icon').className = 'fa-solid fa-pause';
+                document.getElementById('album-cover').classList.add('spinning');
+            }).catch(() => {});
+        }, 600);
+    });
+}
+
+function initClock() {
+    function tick() {
+        const now = new Date();
+        const s = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
+        document.getElementById('hours').textContent = String(s.getHours()).padStart(2, '0');
+        document.getElementById('minutes').textContent = String(s.getMinutes()).padStart(2, '0');
+        document.getElementById('seconds').textContent = String(s.getSeconds()).padStart(2, '0');
+        document.getElementById('date-display').textContent = `${String(s.getDate()).padStart(2, '0')}.${String(s.getMonth() + 1).padStart(2, '0')}.${s.getFullYear()}`;
+    }
+    tick();
+    setInterval(tick, 1000);
+}
+
+function initStatus() {
+    function update() {
+        const now = new Date();
+        const s = new Date(now.getTime() + (now.getTimezoneOffset() * 60000) + (240 * 60000));
+        const mins = s.getHours() * 60 + s.getMinutes();
+        const on = mins >= 480 && mins < 1380;
+        document.getElementById('status-dot').style.background = on ? '#22c55e' : '#ef4444';
+        const badge = document.getElementById('status-badge');
+        badge.className = 'status-pill ' + (on ? 'online' : 'offline');
+        document.getElementById('status-text').textContent = on ? 'ONLINE' : 'OFFLINE';
+    }
+    update();
+    setInterval(update, 60000);
+}
+
+function initMusic() {
+    const audio = document.getElementById('audio-player');
+    const playBtn = document.getElementById('play-btn');
+    const playIcon = document.getElementById('play-icon');
+    const album = document.getElementById('album-cover');
+    const volBar = document.getElementById('volume-bar');
+    const volIcon = document.getElementById('volume-icon');
+
+    function load(i) {
+        const t = playlist[i];
+        audio.src = t.src;
+        document.getElementById('track-title').textContent = t.title;
+        document.getElementById('track-artist').textContent = t.artist;
+        audio.volume = volume;
+        volBar.style.width = (volume * 100) + '%';
+    }
+
+    function updateVolUI() {
+        volBar.style.width = (volume * 100) + '%';
+        volIcon.className = volume === 0 ? 'fa-solid fa-volume-xmark' : volume < .5 ? 'fa-solid fa-volume-low' : 'fa-solid fa-volume-high';
+        volIcon.style.fontSize = '.75rem';
+    }
+
+    playBtn.addEventListener('click', () => {
+        if (isPlaying) {
+            audio.pause();
+            playIcon.className = 'fa-solid fa-play';
+            album.classList.remove('spinning');
+        } else {
+            audio.play();
+            playIcon.className = 'fa-solid fa-pause';
+            album.classList.add('spinning');
         }
+        isPlaying = !isPlaying;
+    });
 
-        function startSnow() { if (!snowInterval) snowInterval = setInterval(createSnow, 200); }
-        function stopSnow() { clearInterval(snowInterval); snowInterval = null; document.getElementById('snow-container').innerHTML = ''; }
+    document.getElementById('prev-btn').addEventListener('click', () => {
+        currentTrack = (currentTrack - 1 + playlist.length) % playlist.length;
+        load(currentTrack);
+        if (isPlaying) audio.play();
+    });
 
-        function initSnowToggle() {
-            const btn = document.getElementById('snow-toggle');
-            const circle = document.getElementById('snow-toggle-circle');
-            const update = () => {
-                btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${snowEnabled ? 'bg-accent' : 'bg-gray-600'}`;
-                circle.style.left = snowEnabled ? '30px' : '4px';
-            };
-            update();
-            btn.addEventListener('click', () => {
-                snowEnabled = !snowEnabled;
-                update();
-                snowEnabled ? startSnow() : stopSnow();
-            });
+    document.getElementById('next-btn').addEventListener('click', () => {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        load(currentTrack);
+        if (isPlaying) audio.play();
+    });
+
+    audio.addEventListener('ended', () => {
+        currentTrack = (currentTrack + 1) % playlist.length;
+        load(currentTrack);
+        audio.play();
+    });
+
+    document.getElementById('mute-btn').addEventListener('click', () => {
+        volume = volume > 0 ? 0 : .7;
+        audio.volume = volume;
+        updateVolUI();
+    });
+
+    document.getElementById('volume-container').addEventListener('click', e => {
+        const r = e.currentTarget.getBoundingClientRect();
+        volume = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+        audio.volume = volume;
+        updateVolUI();
+    });
+
+    load(0);
+}
+
+function initScrollTop() {
+    const btn = document.getElementById('scroll-top');
+    addEventListener('scroll', () => {
+        btn.classList.toggle('visible', scrollY > 300);
+    });
+    btn.addEventListener('click', () => scrollTo({ top: 0, behavior: 'smooth' }));
+}
+
+function initModal() {
+    const overlay = document.getElementById('modal-overlay');
+    document.getElementById('terminal-shadows-btn').addEventListener('click', () => overlay.classList.add('active'));
+    const close = () => overlay.classList.remove('active');
+    document.getElementById('modal-close').addEventListener('click', close);
+    overlay.addEventListener('click', e => { if (e.target === overlay) close(); });
+}
+
+function initToggles() {
+    const snowToggle = document.getElementById('snow-toggle');
+    const rainToggle = document.getElementById('rain-toggle');
+
+    function updateSnowUI() {
+        snowToggle.className = 'toggle-track ' + (snowOn ? 'on' : 'off');
+    }
+    function updateRainUI() {
+        rainToggle.className = 'toggle-track ' + (rainOn ? 'on' : 'off');
+    }
+
+    updateSnowUI();
+    updateRainUI();
+
+    snowToggle.addEventListener('click', () => {
+        snowOn = !snowOn;
+        updateSnowUI();
+        if (siteEntered) snowOn ? startSnow() : stopSnow();
+    });
+
+    rainToggle.addEventListener('click', () => {
+        rainOn = !rainOn;
+        updateRainUI();
+        if (siteEntered) rainOn ? startRain() : stopRain();
+    });
+}
+
+function createSnowflake() {
+    if (!snowOn || !siteEntered) return;
+    const el = document.createElement('div');
+    el.className = 'snowflake';
+    const size = Math.random() * 5 + 2;
+    el.style.width = size + 'px';
+    el.style.height = size + 'px';
+    el.style.left = Math.random() * innerWidth + 'px';
+    el.style.opacity = Math.random() * .6 + .2;
+    const dur = Math.random() * 6 + 4;
+    el.style.animationDuration = dur + 's';
+    document.getElementById('fx-container').appendChild(el);
+    setTimeout(() => el.remove(), dur * 1000);
+}
+
+function startSnow() {
+    if (!snowInterval) snowInterval = setInterval(createSnowflake, 150);
+}
+function stopSnow() {
+    clearInterval(snowInterval);
+    snowInterval = null;
+    document.querySelectorAll('.snowflake').forEach(e => e.remove());
+}
+
+function createRaindrop() {
+    if (!rainOn || !siteEntered) return;
+    const el = document.createElement('div');
+    el.className = 'raindrop';
+    const h = Math.random() * 20 + 10;
+    el.style.height = h + 'px';
+    el.style.left = Math.random() * innerWidth + 'px';
+    el.style.opacity = Math.random() * .5 + .3;
+    const dur = Math.random() * .4 + .3;
+    el.style.animationDuration = dur + 's';
+    const container = document.getElementById('fx-container');
+    container.appendChild(el);
+    setTimeout(() => {
+        el.remove();
+        if (Math.random() > .6) {
+            const splash = document.createElement('div');
+            splash.className = 'rain-splash';
+            splash.style.left = el.style.left;
+            splash.style.bottom = '0px';
+            container.appendChild(splash);
+            setTimeout(() => splash.remove(), 400);
         }
+    }, dur * 1000);
+}
 
-        function createRain() {
-            if (!rainEnabled || !siteEntered) return;
-            const drop = document.createElement('div');
-            drop.className = 'raindrop';
-            drop.style.left = Math.random() * window.innerWidth + 'px';
-            drop.style.top = '-10px';
-            const dur = Math.random() * 0.5 + 0.5;
-            drop.style.animationDuration = dur + 's';
-            document.getElementById('snow-container').appendChild(drop);
-            setTimeout(() => drop.remove(), dur * 1000);
-        }
+function startRain() {
+    if (!rainInterval) rainInterval = setInterval(createRaindrop, 30);
+}
+function stopRain() {
+    clearInterval(rainInterval);
+    rainInterval = null;
+    document.querySelectorAll('.raindrop,.rain-splash').forEach(e => e.remove());
+}
 
-        function startRain() {
-            if (!rainInterval) rainInterval = setInterval(createRain, 100);
-        }
+function initAppear() {
+    const obs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) e.target.classList.add('visible');
+        });
+    }, { threshold: .1 });
+    document.querySelectorAll('.appear').forEach(el => obs.observe(el));
+}
 
-        function stopRain() {
-            clearInterval(rainInterval);
-            rainInterval = null;
-            const drops = document.querySelectorAll('.raindrop');
-            drops.forEach(d => d.remove());
-        }
+function triggerAppear() {
+    const els = document.querySelectorAll('.appear');
+    els.forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 80);
+    });
+}
 
-        function initRainToggle() {
-            const btn = document.getElementById('rain-toggle');
-            const circle = document.getElementById('rain-toggle-circle');
-            const update = () => {
-                btn.className = `w-14 h-8 rounded-full relative transition-all duration-300 ${rainEnabled ? 'bg-accent' : 'bg-gray-600'}`;
-                circle.style.left = rainEnabled ? '30px' : '4px';
-            };
-            update();
-            btn.addEventListener('click', () => {
-                rainEnabled = !rainEnabled;
-                update();
-                rainEnabled ? startRain() : stopRain();
-            });
-        }
-    </script>
+function initCardGlow() {
+    document.querySelectorAll('.card').forEach(card => {
+        const glow = card.querySelector('.card-glow');
+        if (!glow) return;
+        card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            glow.style.left = (e.clientX - r.left - 100) + 'px';
+            glow.style.top = (e.clientY - r.top - 100) + 'px';
+        });
+    });
+}
+</script>
 </body>
 </html>
